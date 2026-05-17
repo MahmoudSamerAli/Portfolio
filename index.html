@@ -4,68 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Mahmoud Samer | Software Engineer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Google Fonts + Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
 </head>
 <body>
-  <!-- Interactive Background Canvas -->
-  <canvas id="bgCanvas"></canvas>
-  
   <header class="header">
     <div class="nav-container">
       <div class="logo">MAHMOUD<span class="accent">.DEV</span></div>
-      <button id="tuiToggle" class="btn-terminal" aria-label="Toggle Terminal Mode">
-        <i class="fas fa-terminal"></i> <span class="hide-mobile">TUI Mode</span>
-      </button>
       <ul class="nav-links">
-        <li><a href="#home" class="nav-link active">Home</a></li>
-        <li><a href="#about" class="nav-link">About</a></li>
-        <li><a href="#experience" class="nav-link">Experience</a></li>
-        <li><a href="#skills" class="nav-link">Skills</a></li>
-        <li><a href="#projects" class="nav-link">Projects</a></li>
-        <li><a href="#contact" class="nav-link">Contact</a></li>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
       <button class="mobile-toggle" aria-label="Toggle menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </header>
-
-  <!-- Terminal UI Overlay -->
-  <div id="terminalUI" class="terminal-ui hidden">
-    <div class="terminal-window">
-      <div class="terminal-header">
-        <div class="terminal-controls">
-          <span class="dot red"></span>
-          <span class="dot yellow"></span>
-          <span class="dot green"></span>
-        </div>
-        <div class="terminal-title">mahmoud@portfolio:~</div>
-        <button id="closeTerminal" class="btn-close"><i class="fas fa-times"></i></button>
-      </div>
-      <div class="terminal-body" id="terminalBody">
-        <div class="terminal-welcome">
-          <pre>
-   __  __             _        _             
-  |  \/  | __ _ _ __ (_) __ _ (_) ___  _ __  
-  | |\/| |/ _` | '_ \| |/ _` || |/ _ \| '_ \ 
-  | |  | | (_| | | | | | (_| || | (_) | | | |
-  |_|  |_|\__,_|_| |_|_|\__,_// |\___/|_| |_|
-                            |__/             
-          </pre>
-          <p class="terminal-subtitle">Welcome to Mahmoud Samer's Portfolio Terminal</p>
-          <p class="terminal-hint">Type <span class="cmd-highlight">help</span> to see available commands</p>
-        </div>
-        <div id="terminalOutput"></div>
-        <div class="terminal-input-line">
-          <span class="prompt">mahmoud@portfolio:~$</span>
-          <input type="text" id="terminalInput" class="terminal-input" autocomplete="off" autofocus>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <main>
     <!-- Hero Section -->
@@ -78,11 +38,8 @@
           <a href="#projects" class="btn btn-primary"><i class="fas fa-code"></i> View Projects</a>
           <a href="#contact" class="btn btn-outline"><i class="fas fa-paper-plane"></i> Contact Me</a>
         </div>
-        <div class="scroll-indicator">
-          <span>Scroll Down</span>
-          <i class="fas fa-chevron-down"></i>
-        </div>
       </div>
+      <div class="hero-glow"></div>
     </section>
 
     <!-- About Section -->
@@ -92,15 +49,15 @@
         <div class="about-grid">
           <div class="about-text">
             <p>I'm a 3rd-year Software Engineering student at AASTMT with a strong foundation in Python, Java, C++, and SQL. My journey spans full-stack web development, OOP-based desktop applications, data engineering, and embedded systems.</p>
-            <p>Through internships at Google Developer Groups, Flexe Soft, and the Digital Egypt Pioneers Initiative, I've honed my ability to deliver production-ready features, optimize performance, and collaborate effectively in agile environments.</p>
+            <p>Through internships at Google Developer Groups, Flexe Soft, and the Digital Egypt Pioneers Initiative, I've honed my ability to deliver production-ready features, optimize performance, and collaborate effectively in agile environments. I thrive on solving complex challenges and continuously expanding my technical toolkit.</p>
             <div class="about-stats">
               <div class="stat"><h3>15+</h3><p>Projects</p></div>
-              <div class="stat"><h3>4</h3><p>Internships</p></div>
+              <div class="stat"><h3>3</h3><p>Internships</p></div>
               <div class="stat"><h3>3.2</h3><p>GPA / 4.0</p></div>
             </div>
           </div>
           <div class="about-card">
-            <div class="terminal-preview">
+            <div class="terminal">
               <div class="terminal-header">
                 <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
                 <span class="terminal-title">mahmoud@portfolio:~</span>
@@ -119,210 +76,11 @@
       </div>
     </section>
 
-    <!-- Experience Timeline Section -->
-    <section id="experience" class="fade-up">
-      <div class="container">
-        <h2>Experience</h2>
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-header">
-                <h3>Robotics Engineer</h3>
-                <span class="timeline-company"><i class="fab fa-google"></i> Google Developer Group</span>
-              </div>
-              <span class="timeline-date">Oct 2025 – Present</span>
-              <ul class="timeline-details">
-                <li>Built and programmed an Arduino-based robotic RC car implementing sensors, wiring, and motor control logic</li>
-              </ul>
-            </div>
-          </div>
-          
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-header">
-                <h3>Front-End Developer</h3>
-                <span class="timeline-company"><i class="fas fa-briefcase"></i> Flexe Soft</span>
-              </div>
-              <span class="timeline-date">Jul 2025 – Sep 2025</span>
-              <ul class="timeline-details">
-                <li>Developed responsive web app using React to visualize real-time logistics data</li>
-                <li>Integrated front-end with ERP system via REST APIs, reducing manual data entry by 25%</li>
-                <li>Translated Figma designs into reusable React components</li>
-              </ul>
-            </div>
-          </div>
-          
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-header">
-                <h3>Web Developer</h3>
-                <span class="timeline-company"><i class="fab fa-google"></i> Google Developer Group</span>
-              </div>
-              <span class="timeline-date">Oct 2024 – Aug 2025</span>
-              <ul class="timeline-details">
-                <li>Built 4+ responsive web apps using HTML/CSS/JS, improving page speed by 20%</li>
-                <li>Collaborated with 5-member team using GitHub</li>
-              </ul>
-            </div>
-          </div>
-          
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-header">
-                <h3>Data Scientist</h3>
-                <span class="timeline-company"><i class="fas fa-university"></i> Digital Egypt Pioneers Initiative</span>
-              </div>
-              <span class="timeline-date">Oct 2024 – May 2025</span>
-              <ul class="timeline-details">
-                <li>Analyzed datasets using Python (Pandas, NumPy) to generate actionable insights</li>
-                <li>Automated data cleaning with Python, saving 10+ hours/week</li>
-                <li>Generated insights from 10K+ records using SQL, reducing errors by 30%</li>
-              </ul>
-            </div>
-          </div>
-          
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <div class="timeline-header">
-                <h3>Credit Admin</h3>
-                <span class="timeline-company"><i class="fas fa-landmark"></i> Suez Canal Bank</span>
-              </div>
-              <span class="timeline-date">Sep 2024</span>
-              <ul class="timeline-details">
-                <li>Assisted in credit risk analysis</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Skills Section with Progress Bars -->
+    <!-- Skills Section -->
     <section id="skills" class="fade-up">
       <div class="container">
-        <h2>Technical Skills</h2>
-        <div class="skills-container">
-          <div class="skill-category">
-            <h3><i class="fas fa-code"></i> Programming Languages</h3>
-            <div class="skills-grid">
-              <div class="skill-bar-wrapper">
-                <div class="skill-header">
-                  <span class="skill-name">Python</span>
-                  <span class="skill-level">Advanced</span>
-                </div>
-                <div class="skill-bar"><div class="skill-progress" data-progress="85"></div></div>
-              </div>
-              <div class="skill-bar-wrapper">
-                <div class="skill-header">
-                  <span class="skill-name">Java</span>
-                  <span class="skill-level">Advanced</span>
-                </div>
-                <div class="skill-bar"><div class="skill-progress" data-progress="80"></div></div>
-              </div>
-              <div class="skill-bar-wrapper">
-                <div class="skill-header">
-                  <span class="skill-name">C/C++</span>
-                  <span class="skill-level">Intermediate</span>
-                </div>
-                <div class="skill-bar"><div class="skill-progress" data-progress="75"></div></div>
-              </div>
-              <div class="skill-bar-wrapper">
-                <div class="skill-header">
-                  <span class="skill-name">JavaScript</span>
-                  <span class="skill-level">Advanced</span>
-                </div>
-                <div class="skill-bar"><div class="skill-progress" data-progress="82"></div></div>
-              </div>
-              <div class="skill-bar-wrapper">
-                <div class="skill-header">
-                  <span class="skill-name">SQL</span>
-                  <span class="skill-level">Advanced</span>
-                </div>
-                <div class="skill-bar"><div class="skill-progress" data-progress="80"></div></div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="skill-category">
-            <h3><i class="fas fa-globe"></i> Web & Mobile Development</h3>
-            <div class="skills-grid">
-              <div class="skill-bar-wrapper">
-                <div class="skill-header">
-                  <span class="skill-name">React.js</span>
-                  <span class="skill-level">Advanced</span>
-                </div>
-                <div class="skill-bar"><div class="skill-progress" data-progress="85"></div></div>
-              </div>
-              <div class="skill-bar-wrapper">
-                <div class="skill-header">
-                  <span class="skill-name">HTML5/CSS3</span>
-                  <span class="skill-level">Advanced</span>
-                </div>
-                <div class="skill-bar"><div class="skill-progress" data-progress="90"></div></div>
-              </div>
-              <div class="skill-bar-wrapper">
-                <div class="skill-header">
-                  <span class="skill-name">Node.js</span>
-                  <span class="skill-level">Basic</span>
-                </div>
-                <div class="skill-bar"><div class="skill-progress" data-progress="60"></div></div>
-              </div>
-              <div class="skill-bar-wrapper">
-                <div class="skill-header">
-                  <span class="skill-name">Flutter</span>
-                  <span class="skill-level">Basic</span>
-                </div>
-                <div class="skill-bar"><div class="skill-progress" data-progress="55"></div></div>
-              </div>
-              <div class="skill-bar-wrapper">
-                <div class="skill-header">
-                  <span class="skill-name">PHP</span>
-                  <span class="skill-level">Intermediate</span>
-                </div>
-                <div class="skill-bar"><div class="skill-progress" data-progress="70"></div></div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="skill-category">
-            <h3><i class="fas fa-microchip"></i> Embedded & Tools</h3>
-            <div class="skills-grid">
-              <div class="skill-bar-wrapper">
-                <div class="skill-header">
-                  <span class="skill-name">Arduino</span>
-                  <span class="skill-level">Intermediate</span>
-                </div>
-                <div class="skill-bar"><div class="skill-progress" data-progress="75"></div></div>
-              </div>
-              <div class="skill-bar-wrapper">
-                <div class="skill-header">
-                  <span class="skill-name">Git/GitHub</span>
-                  <span class="skill-level">Advanced</span>
-                </div>
-                <div class="skill-bar"><div class="skill-progress" data-progress="85"></div></div>
-              </div>
-              <div class="skill-bar-wrapper">
-                <div class="skill-header">
-                  <span class="skill-name">MSSQL</span>
-                  <span class="skill-level">Advanced</span>
-                </div>
-                <div class="skill-bar"><div class="skill-progress" data-progress="80"></div></div>
-              </div>
-              <div class="skill-bar-wrapper">
-                <div class="skill-header">
-                  <span class="skill-name">Unity/Blender</span>
-                  <span class="skill-level">Intermediate</span>
-                </div>
-                <div class="skill-bar"><div class="skill-progress" data-progress="70"></div></div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <h2>Tech Arsenal</h2>
+        <div class="skills-grid" id="skills-container"></div>
       </div>
     </section>
 
