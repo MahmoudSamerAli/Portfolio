@@ -1,140 +1,369 @@
 // ============================================
-// MAHMOUD SAMER - PORTFOLIO (Vanilla JS)
+// MAHMOUD SAMER - PORTFOLIO (Enhanced)
 // ============================================
 
-// Projects Database - 15 projects from CV (NO GAMES)
+// Projects Database
 const projectsData = [
   {
     id: 1, title: "Prison Management DB",
-    description: "Relational database managing inmate records, rehabilitation programs, and staff. Applied 1NF-3NF normalization with complex stored procedures.",
+    description: "Relational database managing inmate records, rehabilitation programs, and staff with 1NF-3NF normalization.",
     tech: ["MSSQL", "ERD", "Stored Procedures"], category: "Database", demo: "#", repo: "#"
   },
   {
     id: 2, title: "Advanced Zoo System",
-    description: "Implemented 9 design patterns (Singleton, Factory, Observer) with DB connectivity, modular GUI, and scalable architecture.",
+    description: "Implemented 9 design patterns with DB connectivity, modular GUI, and scalable architecture.",
     tech: ["Java", "OOP", "Design Patterns"], category: "Software", demo: "#", repo: "#"
   },
   {
     id: 3, title: "Event Management Web App",
-    description: "MVC-patterned web application using Java Servlets/JSP handling HTTP requests, dynamic rendering, and responsive UI.",
+    description: "MVC-patterned web app using Java Servlets/JSP handling HTTP requests and dynamic rendering.",
     tech: ["Java", "Servlets", "JSP"], category: "Web", demo: "#", repo: "#"
   },
   {
     id: 4, title: "Luxury Car Showroom",
-    description: "Full-stack vehicle inventory & sales platform with authentication, interactive galleries, and relational database backend.",
+    description: "Full-stack vehicle inventory platform with authentication and relational database backend.",
     tech: ["PHP", "SQL", "JavaScript"], category: "Web", demo: "#", repo: "#"
   },
   {
     id: 5, title: "Attendance & Emotion AI",
-    description: "Facial recognition attendance tracker with AI emotion detection. R used for statistical analysis and engagement visualization.",
+    description: "Facial recognition attendance tracker with AI emotion detection and R statistical analysis.",
     tech: ["Python", "OpenCV", "R"], category: "AI", demo: "#", repo: "#"
   },
   {
     id: 6, title: "SmartBite Web App",
-    description: "Converted mobile UI to responsive web application using Flask. Implemented unit, integration, and manual UI testing.",
+    description: "Converted mobile UI to responsive web application using Flask with comprehensive testing.",
     tech: ["Flask", "Python", "Testing"], category: "Web", demo: "#", repo: "#"
   },
   {
     id: 7, title: "Infix to Postfix Calculator",
-    description: "Expression evaluator using Shunting-yard algorithm & expression trees. Web UI shows step-by-step conversion.",
+    description: "Expression evaluator using Shunting-yard algorithm with step-by-step web UI.",
     tech: ["C++", "JavaScript", "Algorithms"], category: "Software", demo: "#", repo: "#"
   },
   {
     id: 8, title: "Numerical Methods Calculator",
-    description: "Interactive web solver for Bisection, Jacobi, Lagrange Interpolation, and other computational techniques.",
+    description: "Interactive web solver for Bisection, Jacobi, Lagrange Interpolation techniques.",
     tech: ["HTML", "CSS", "JavaScript"], category: "Web", demo: "#", repo: "#"
   },
   {
     id: 9, title: "Data Pipeline Automation",
-    description: "Automated cleaning of 10K+ records using Pandas, reducing manual reporting time by 10+ hrs/week and cutting errors by 30%.",
+    description: "Automated cleaning of 10K+ records using Pandas, saving 10+ hours/week.",
     tech: ["Python", "Pandas", "SQL"], category: "Data", demo: "#", repo: "#"
   },
   {
     id: 10, title: "Restaurant Management DB",
-    description: "Comprehensive reservation & order tracking system with ERD design, login forms, reporting, and data validation.",
+    description: "Comprehensive reservation system with ERD design, login forms, and reporting.",
     tech: ["MS Access", "SQL", "VBA"], category: "Database", demo: "#", repo: "#"
   },
   {
     id: 11, title: "Smart RC Car (Arduino)",
-    description: "Bluetooth-controlled chassis with PWM motor regulation, ultrasonic obstacle avoidance, and semi-autonomous routing.",
+    description: "Bluetooth-controlled chassis with PWM motor regulation and ultrasonic obstacle avoidance.",
     tech: ["Arduino", "C++", "Sensors"], category: "Hardware", demo: "#", repo: "#"
   },
   {
     id: 12, title: "Digital Alarm Clock",
-    description: "Designed digital clock circuit using decade counters, BCD-to-7-segment decoders, and piezo buzzer alarm logic in Multisim.",
+    description: "Digital clock circuit using decade counters, BCD-to-7-segment decoders in Multisim.",
     tech: ["Multisim", "Digital Logic", "Hardware"], category: "Hardware", demo: "#", repo: "#"
   },
   {
     id: 13, title: "Online Store UML Documentation",
-    description: "Comprehensive UML documentation including activity, sequence, class, misuse, and state diagrams for system behavior modeling.",
+    description: "Comprehensive UML diagrams including activity, sequence, class, and state diagrams.",
     tech: ["UML", "System Design", "Documentation"], category: "Design", demo: "#", repo: "#"
   },
   {
     id: 14, title: "Marketing Agency UX Design",
-    description: "Complete UX prototype featuring user flows, wireframes, and polished interface focused on usability and modern aesthetics.",
+    description: "Complete UX prototype with user flows, wireframes, and polished interface in Figma.",
     tech: ["Figma", "UX/UI", "Prototyping"], category: "Design", demo: "#", repo: "#"
   },
   {
     id: 15, title: "Sorting Algorithms Analysis",
-    description: "Implemented Bubble & Selection Sort. Analyzed correctness, execution flow, and comparative time complexity performance.",
+    description: "Implemented Bubble & Selection Sort with correctness and time complexity analysis.",
     tech: ["Python", "Algorithms", "Analysis"], category: "Algorithms", demo: "#", repo: "#"
   }
 ];
 
-// Skills Data
-const skillsData = [
-  { name: "Python", icon: "fab fa-python" },
-  { name: "Java", icon: "fab fa-java" },
-  { name: "C/C++", icon: "fas fa-code" },
-  { name: "SQL", icon: "fas fa-database" },
-  { name: "JavaScript", icon: "fab fa-js" },
-  { name: "React.js", icon: "fab fa-react" },
-  { name: "Node.js", icon: "fab fa-node" },
-  { name: "Flutter", icon: "fas fa-mobile-alt" },
-  { name: "Arduino", icon: "fas fa-microchip" },
-  { name: "Git/GitHub", icon: "fab fa-git-alt" },
-  { name: "MSSQL", icon: "fas fa-server" },
-  { name: "Figma", icon: "fab fa-figma" }
-];
-
-// State
 let currentFilter = "All";
+
+// ============================================
+// INTERACTIVE BACKGROUND
+// ============================================
+function initInteractiveBackground() {
+  const canvas = document.getElementById('bgCanvas');
+  const ctx = canvas.getContext('2d');
+  
+  let width, height;
+  let particles = [];
+  const particleCount = 60;
+  const connectionDistance = 150;
+  const mouseDistance = 200;
+  
+  let mouse = { x: null, y: null };
+  
+  window.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  });
+  
+  window.addEventListener('resize', resize);
+  
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  
+  class Particle {
+    constructor() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.vx = (Math.random() - 0.5) * 0.5;
+      this.vy = (Math.random() - 0.5) * 0.5;
+      this.size = Math.random() * 2 + 1;
+    }
+    
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      
+      if (this.x < 0 || this.x > width) this.vx *= -1;
+      if (this.y < 0 || this.y > height) this.vy *= -1;
+      
+      // Mouse interaction
+      if (mouse.x != null) {
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < mouseDistance) {
+          const forceDirectionX = dx / distance;
+          const forceDirectionY = dy / distance;
+          const force = (mouseDistance - distance) / mouseDistance;
+          const directionX = forceDirectionX * force * 0.6;
+          const directionY = forceDirectionY * force * 0.6;
+          
+          this.vx += directionX;
+          this.vy += directionY;
+        }
+      }
+    }
+    
+    draw() {
+      ctx.fillStyle = 'rgba(30, 136, 229, 0.5)';
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+  
+  function init() {
+    resize();
+    particles = [];
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+  }
+  
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+    
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
+      
+      // Draw connections
+      for (let j = i; j < particles.length; j++) {
+        let dx = particles[i].x - particles[j].x;
+        let dy = particles[i].y - particles[j].y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < connectionDistance) {
+          ctx.beginPath();
+          let opacity = 1 - (distance / connectionDistance);
+          ctx.strokeStyle = `rgba(30, 136, 229, ${opacity * 0.2})`;
+          ctx.lineWidth = 1;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    
+    requestAnimationFrame(animate);
+  }
+  
+  init();
+  animate();
+}
+
+// ============================================
+// TERMINAL UI
+// ============================================
+function initTerminalUI() {
+  const tuiToggle = document.getElementById('tuiToggle');
+  const terminalUI = document.getElementById('terminalUI');
+  const closeTerminal = document.getElementById('closeTerminal');
+  const terminalInput = document.getElementById('terminalInput');
+  const terminalOutput = document.getElementById('terminalOutput');
+  const terminalBody = document.getElementById('terminalBody');
+  
+  const commands = {
+    help: () => `
+<div class="terminal-output-line">Available commands:</div>
+<div class="terminal-output-line">  <span class="cmd-highlight">home</span>       - Go to home section</div>
+<div class="terminal-output-line">  <span class="cmd-highlight">about</span>      - About me</div>
+<div class="terminal-output-line">  <span class="cmd-highlight">experience</span> - Work experience</div>
+<div class="terminal-output-line">  <span class="cmd-highlight">skills</span>     - Technical skills</div>
+<div class="terminal-output-line">  <span class="cmd-highlight">projects</span>   - View projects</div>
+<div class="terminal-output-line">  <span class="cmd-highlight">contact</span>    - Contact information</div>
+<div class="terminal-output-line">  <span class="cmd-highlight">clear</span>      - Clear terminal</div>
+<div class="terminal-output-line">  <span class="cmd-highlight">close</span>      - Close terminal</div>
+`,
+    home: () => {
+      navigateToSection('home');
+      return '<div class="terminal-output-line">✓ Navigated to Home section</div>';
+    },
+    about: () => {
+      navigateToSection('about');
+      return '<div class="terminal-output-line">✓ Navigated to About section</div>';
+    },
+    experience: () => {
+      navigateToSection('experience');
+      return '<div class="terminal-output-line">✓ Navigated to Experience section</div>';
+    },
+    skills: () => {
+      navigateToSection('skills');
+      return '<div class="terminal-output-line">✓ Navigated to Skills section</div>';
+    },
+    projects: () => {
+      navigateToSection('projects');
+      return '<div class="terminal-output-line">✓ Navigated to Projects section</div>';
+    },
+    contact: () => {
+      navigateToSection('contact');
+      return '<div class="terminal-output-line">✓ Navigated to Contact section</div>';
+    },
+    clear: () => {
+      terminalOutput.innerHTML = '';
+      return '';
+    },
+    close: () => {
+      closeTUI();
+      return '';
+    }
+  };
+  
+  function navigateToSection(sectionId) {
+    closeTUI();
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+  
+  function closeTUI() {
+    terminalUI.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+  }
+  
+  function openTUI() {
+    terminalUI.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    terminalInput.focus();
+  }
+  
+  function executeCommand(cmd) {
+    const command = cmd.toLowerCase().trim();
+    
+    // Add command to output
+    const cmdLine = document.createElement('div');
+    cmdLine.className = 'terminal-output-line';
+    cmdLine.innerHTML = `<span class="prompt">mahmoud@portfolio:~$</span> ${cmd}`;
+    terminalOutput.appendChild(cmdLine);
+    
+    if (commands[command]) {
+      const result = commands[command]();
+      if (result) {
+        const resultDiv = document.createElement('div');
+        resultDiv.innerHTML = result;
+        terminalOutput.appendChild(resultDiv);
+      }
+    } else if (command !== '') {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'terminal-output-line';
+      errorDiv.innerHTML = `<span style="color: var(--error)">Command not found: ${cmd}. Type 'help' for available commands.</span>`;
+      terminalOutput.appendChild(errorDiv);
+    }
+    
+    terminalBody.scrollTop = terminalBody.scrollHeight;
+  }
+  
+  tuiToggle.addEventListener('click', openTUI);
+  closeTerminal.addEventListener('click', closeTUI);
+  
+  terminalInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const value = terminalInput.value;
+      terminalInput.value = '';
+      executeCommand(value);
+    }
+  });
+  
+  // Auto-show available commands on open
+  terminalUI.addEventListener('transitionend', (e) => {
+    if (!terminalUI.classList.contains('hidden') && e.target === terminalUI) {
+      setTimeout(() => {
+        const helpDiv = document.createElement('div');
+        helpDiv.innerHTML = commands.help();
+        terminalOutput.appendChild(helpDiv);
+        terminalBody.scrollTop = terminalBody.scrollHeight;
+      }, 300);
+    }
+  });
+}
+
+// ============================================
+// ANIMATED SKILL BARS
+// ============================================
+function initSkillBars() {
+  const skillBars = document.querySelectorAll('.skill-progress');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const progress = entry.target;
+        const targetWidth = progress.getAttribute('data-progress');
+        
+        setTimeout(() => {
+          progress.style.width = targetWidth + '%';
+        }, 200);
+        
+        observer.unobserve(progress);
+      }
+    });
+  }, { threshold: 0.5, rootMargin: '0px 0px -50px 0px' });
+  
+  skillBars.forEach(bar => observer.observe(bar));
+}
 
 // ============================================
 // INITIALIZATION
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Dynamic year
   document.getElementById('year').textContent = new Date().getFullYear();
   
-  // Render components
-  renderSkills();
+  // Initialize features
+  initInteractiveBackground();
+  initTerminalUI();
+  initSkillBars();
   buildFilterBar();
   renderProjects();
-  
-  // Initialize interactions
   initSmoothScroll();
   initFadeInObserver();
   initMobileNav();
   initContactForm();
   initHeaderScroll();
   
-  // Project card interactions
   document.getElementById('projects-container')?.addEventListener('click', handleProjectClick);
 });
-
-// ============================================
-// RENDER FUNCTIONS
-// ============================================
-function renderSkills() {
-  const container = document.getElementById('skills-container');
-  if (!container) return;
-  container.innerHTML = skillsData.map(skill => `
-    <div class="skill-chip">
-      <i class="${skill.icon}"></i>${skill.name}
-    </div>
-  `).join('');
-}
 
 function getUniqueCategories() {
   const cats = projectsData.map(p => p.category);
@@ -152,7 +381,6 @@ function buildFilterBar() {
     </button>
   `).join('');
   
-  // Attach click events
   filterBar.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       currentFilter = btn.dataset.filter;
@@ -200,9 +428,6 @@ function renderProjects() {
   `).join('');
 }
 
-// ============================================
-// INTERACTIONS
-// ============================================
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', (e) => {
@@ -215,8 +440,7 @@ function initSmoothScroll() {
           const elementPos = target.getBoundingClientRect().top + window.scrollY;
           window.scrollTo({ top: elementPos - offset, behavior: 'smooth' });
           
-          // Update active nav
-          document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+          document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
           link.classList.add('active');
         }
       }
@@ -247,7 +471,6 @@ function initMobileNav() {
       nav.classList.toggle('active');
     });
     
-    // Close menu when clicking a link
     nav.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         toggle.classList.remove('active');
@@ -262,13 +485,10 @@ function handleProjectClick(e) {
   if (btn && (btn.href === '#' || btn.href.includes('#'))) {
     e.preventDefault();
     const action = btn.textContent.includes('Code') ? 'GitHub' : 'live demo';
-    alert(`✨ This is a placeholder link.\n\nIn production, this would open the project's ${action}.\n\nUpdate the 'repo' and 'demo' fields in script.js with your actual URLs.`);
+    alert(`✨ This is a placeholder link.\n\nUpdate the 'repo' and 'demo' fields in script.js with your actual URLs.`);
   }
 }
 
-// ============================================
-// FORM VALIDATION
-// ============================================
 function validateEmail(email) {
   return /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/.test(email);
 }
@@ -279,13 +499,11 @@ function validateContactForm() {
   const message = document.getElementById('message').value.trim();
   let isValid = true;
   
-  // Clear errors
   ['name', 'email', 'message'].forEach(id => {
     document.getElementById(`${id}Error`).textContent = '';
     document.getElementById(id).closest('.form-group')?.classList.remove('invalid');
   });
   
-  // Name validation
   if (!name) {
     document.getElementById('nameError').textContent = 'Name is required';
     document.getElementById('name').closest('.form-group').classList.add('invalid');
@@ -296,7 +514,6 @@ function validateContactForm() {
     isValid = false;
   }
   
-  // Email validation
   if (!email) {
     document.getElementById('emailError').textContent = 'Email is required';
     document.getElementById('email').closest('.form-group').classList.add('invalid');
@@ -307,7 +524,6 @@ function validateContactForm() {
     isValid = false;
   }
   
-  // Message validation
   if (!message) {
     document.getElementById('msgError').textContent = 'Message cannot be empty';
     document.getElementById('message').closest('.form-group').classList.add('invalid');
@@ -331,7 +547,6 @@ function initContactForm() {
     e.preventDefault();
     
     if (validateContactForm()) {
-      // Simulate sending
       status.textContent = 'Sending...';
       status.className = 'form-status';
       
@@ -340,7 +555,6 @@ function initContactForm() {
         status.className = 'form-status success';
         form.reset();
         
-        // Clear success message after 5 seconds
         setTimeout(() => {
           status.textContent = '';
         }, 5000);
@@ -351,7 +565,6 @@ function initContactForm() {
     }
   });
   
-  // Real-time validation on blur
   ['name', 'email', 'message'].forEach(id => {
     document.getElementById(id)?.addEventListener('blur', () => {
       if (document.getElementById(id).value.trim()) {
@@ -362,9 +575,6 @@ function initContactForm() {
   });
 }
 
-// ============================================
-// HEADER SCROLL EFFECT
-// ============================================
 function initHeaderScroll() {
   const header = document.querySelector('.header');
   if (!header) return;
