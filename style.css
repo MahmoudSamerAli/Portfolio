@@ -222,8 +222,13 @@ section {
 
 /* Filter Bar - Scrollable on mobile */
 .filter-bar {
-  display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; 
-  margin-top: 2rem; padding: 0 0.5rem;
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 0.8rem; 
+  justify-content: center; 
+  margin-top: 2rem; 
+  margin-bottom: 3rem;
+  padding: 0 0.5rem;
 }
 .filter-bar::-webkit-scrollbar { display: none; }
 .filter-btn {
@@ -442,7 +447,7 @@ h2 {
 }
 
 /* Add this at the top of your CSS, after the root variables */
-#canvas-container {
+#circuit-canvas {
   position: fixed;
   top: 0;
   left: 0;
@@ -450,42 +455,7 @@ h2 {
   height: 100%;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.4;
-}
-
-/* Update the filter bar to be centered */
-.filter-bar {
-  display: flex; 
-  flex-wrap: wrap; 
-  justify-content: center; /* Changed from flex-start to center */
-  gap: 0.8rem; 
-  margin-bottom: 3rem;
-  padding: 0.5rem;
-}
-
-/* Keep the rest of filter-btn styles the same */
-.filter-btn {
-  background: var(--bg-secondary); 
-  border: 1px solid #2A3A60;
-  padding: clamp(0.4rem, 2vw, 0.5rem) clamp(1rem, 3vw, 1.3rem); 
-  border-radius: 40px; 
-  color: var(--text-secondary);
-  font-weight: 500; 
-  cursor: pointer; 
-  transition: 0.2s;
-  font-size: clamp(0.8rem, 2.5vw, 0.95rem);
-  flex-shrink: 0; 
-  white-space: nowrap;
-  min-height: 40px; 
-  display: flex; 
-  align-items: center;
-}
-
-.filter-btn.active, .filter-btn:hover {
-  background: var(--accent); 
-  border-color: var(--accent); 
-  color: white;
-  box-shadow: 0 0 12px var(--accent-glow);
+  opacity: 0.85;
 }
 
 /* Mobile: allow horizontal scroll but keep centered on desktop */
@@ -499,7 +469,5 @@ h2 {
     margin-left: -1rem;
     margin-right: -1rem;
   }
-  .filter-bar::-webkit-scrollbar { 
-    display: none; 
-  }
+  .filter-bar::-webkit-scrollbar { display: none; }
 }

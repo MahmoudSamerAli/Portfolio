@@ -383,145 +383,208 @@ function initHeaderScroll() {
 }
 
 // ============================================
-// INTERACTIVE PARTICLE BACKGROUND
+// CIRCUIT CONSTELLATION BACKGROUND
 // ============================================
-function initInteractiveBackground() {
+function initCircuitBackground() {
   const canvas = document.createElement('canvas');
-  canvas.id = 'particleCanvas';
-  canvas.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    pointer-events: none;
-  `;
-  document.body.insertBefore(canvas, document.body.firstChild);
+  canvas.id = 'circuit-canvas';
+  document.body.prepend(canvas);
   
   const ctx = canvas.getContext('2d');
-  let width, height;
-  let particles = [];
-  let mouse = { x: null, y: null, radius: 150 };
+  let width, height, particles, mouse;
   
-  // Set canvas size
-  function resize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  }
-  
-  window.addEventListener('resize', resize);
-  resize();
-  
-  // Track mouse movement
-  window.addEventListener('mousemove', (e) => {
-    mouse.x = e.x;
-    mouse.y = e.y;
-  });
-  
-  window.addEventListener('mouseout', () => {
-    mouse.x = null;
-    mouse.y = null;
-  });
-  
-  // Particle class
+  // Configuration
+  const CONFIG = {
+    baseCount: 70,
+    connectionDist: 180,
+    mouseRadius: 220,
+    repulsionForce: 2.2,
+    friction: 0.96,
+    driftSpeed: 0.25,
+    glowRadius: 8,
+    lineCurve: 0.15 // Controls how much connections curve
+  };
+
   class Particle {
     constructor() {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
-      this.vx = (Math.random() - 0.5) * 0.5;
-      this.vy = (Math.random() - 0.5) * 0.5;
-      this.size = Math.random() * 2 + 1;
-      this.baseX = this.x;
-      this.baseY = this.y;
-      this.density = (Math.random() * 30) + 1;
+      this.vx = (Math.random() - 0.5) * CONFIG.driftSpeed;
+      this.vy = (Math.random() - 0.5) * CONFIG.driftSpeed;
+      this.radius = Math.random() * 1.8 + 1.2;
+      this.pulsePhase = Math.random() * Math.PI * 2;
+      this.pulseSpeed = 0.02 + Math.random() * 0.02;
     }
-    
-    update() {
-      // Normal movement
+
+    update(time) {
+      // Smooth breathing animation
+      this.currentRadius = this.radius + Math.sin(time * this.pulseSpeed + this.pulsePhase) * 0.4;
+      
+      // Apply velocity
       this.x += this.vx;
       this.y += this.vy;
       
-      // Bounce off edges
+      // Mouse repulsion with inertia
+      if (mouse.x !== null) {
+        const dx = this.x - mouse.x;
+        const dy = this.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        if (dist < CONFIG.mouseRadius) {
+          const force = (CONFIG.mouseRadius - dist) / CONFIG.mouseRadius;
+          const angle = Math.atan2(dy, dx);
+          this.vx += Math.cos(angle) * force * CONFIG.repulsionForce * 0.1;
+          this.vy += Math.sin(angle) * force * CONFIG.repulsionForce * 0.1;
+        }
+      }
+      
+      // Apply friction
+      this.vx *= CONFIG.friction;
+      this.vy *= CONFIG.friction;
+      
+      // Boundary bounce
       if (this.x < 0 || this.x > width) this.vx *= -1;
       if (this.y < 0 || this.y > height) this.vy *= -1;
       
-      // Mouse interaction
-      if (mouse.x != null) {
-        let dx = mouse.x - this.x;
-        let dy = mouse.y - this.y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < mouse.radius) {
-          const forceDirectionX = dx / distance;
-          const forceDirectionY = dy / distance;
-          const force = (mouse.radius - distance) / mouse.radius;
-          const directionX = forceDirectionX * force * this.density * 0.6;
-          const directionY = forceDirectionY * force * this.density * 0.6;
-          
-          this.x -= directionX;
-          this.y -= directionY;
-        }
-      }
+      // Keep within bounds
+      this.x = Math.max(0, Math.min(width, this.x));
+      this.y = Math.max(0, Math.min(height, this.y));
     }
-    
+
     draw() {
-      ctx.fillStyle = 'rgba(30, 136, 229, 0.5)';
+      // Soft radial glow
+      const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.currentRadius * CONFIG.glowRadius);
+      gradient.addColorStop(0, 'rgba(30, 136, 229, 0.8)');
+      gradient.addColorStop(0.4, 'rgba(30, 136, 229, 0.3)');
+      gradient.addColorStop(1, 'rgba(30, 136, 229, 0)');
+      
+      ctx.fillStyle = gradient;
       ctx.beginPath();
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.closePath();
+      ctx.arc(this.x, this.y, this.currentRadius * CONFIG.glowRadius, 0, Math.PI * 2);
+      ctx.fill();
+      
+      // Core dot
+      ctx.fillStyle = '#EFF3FC';
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.currentRadius, 0, Math.PI * 2);
       ctx.fill();
     }
   }
-  
-  // Initialize particles
-  function init() {
-    particles = [];
-    const numberOfParticles = (width * height) / 15000; // Responsive density
-    for (let i = 0; i < numberOfParticles; i++) {
-      particles.push(new Particle());
+
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    // Adjust particle count for mobile
+    const isMobile = window.innerWidth < 768;
+    const count = isMobile ? Math.floor(CONFIG.baseCount * 0.6) : CONFIG.baseCount;
+    
+    if (!particles || particles.length !== count) {
+      particles = [];
+      for (let i = 0; i < count; i++) {
+        particles.push(new Particle());
+      }
     }
   }
-  
-  // Connect particles with lines
-  function connect() {
-    let opacityValue = 1;
-    for (let a = 0; a < particles.length; a++) {
-      for (let b = a; b < particles.length; b++) {
-        let distance = ((particles[a].x - particles[b].x) * (particles[a].x - particles[b].x))
-          + ((particles[a].y - particles[b].y) * (particles[a].y - particles[b].y));
+
+  function drawConnections(time) {
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const p1 = particles[i];
+        const p2 = particles[j];
+        const dx = p1.x - p2.x;
+        const dy = p1.y - p2.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
         
-        if (distance < (canvas.width/7) * (canvas.height/7)) {
-          opacityValue = 1 - (distance / 20000);
-          ctx.strokeStyle = `rgba(30, 136, 229, ${opacityValue * 0.15})`;
-          ctx.lineWidth = 1;
+        if (dist < CONFIG.connectionDist) {
+          // Distance-based opacity + breathing effect
+          const baseOpacity = 1 - (dist / CONFIG.connectionDist);
+          const breathe = Math.sin(time * 0.002 + i * 0.5) * 0.15 + 0.85;
+          const opacity = baseOpacity * breathe * 0.4;
+          
+          // Curved connection line (circuit feel)
+          const midX = (p1.x + p2.x) / 2;
+          const midY = (p1.y + p2.y) / 2;
+          const curveOffset = Math.sin(time * 0.001 + j) * dist * CONFIG.lineCurve;
+          
           ctx.beginPath();
-          ctx.moveTo(particles[a].x, particles[a].y);
-          ctx.lineTo(particles[b].x, particles[b].y);
+          ctx.moveTo(p1.x, p1.y);
+          ctx.quadraticCurveTo(midX + curveOffset, midY + curveOffset, p2.x, p2.y);
+          ctx.strokeStyle = `rgba(58, 155, 236, ${opacity})`;
+          ctx.lineWidth = baseOpacity * 1.2;
           ctx.stroke();
         }
       }
     }
   }
-  
-  // Animation loop
-  function animate() {
-    requestAnimationFrame(animate);
+
+  function animate(time = 0) {
     ctx.clearRect(0, 0, width, height);
     
-    for (let i = 0; i < particles.length; i++) {
-      particles[i].update();
-      particles[i].draw();
-    }
-    connect();
+    particles.forEach(p => {
+      p.update(time);
+      p.draw();
+    });
+    
+    drawConnections(time);
+    requestAnimationFrame(animate);
   }
+
+  // Mouse tracking
+  mouse = { x: null, y: null };
+  window.addEventListener('mousemove', e => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
   
-  init();
-  animate();
+  window.addEventListener('mouseleave', () => {
+    mouse.x = null;
+    mouse.y = null;
+  });
+  
+  // Touch support for mobile
+  window.addEventListener('touchmove', e => {
+    if (e.touches.length > 0) {
+      mouse.x = e.touches[0].clientX;
+      mouse.y = e.touches[0].clientY;
+    }
+  }, { passive: true });
+  
+  window.addEventListener('touchend', () => {
+    mouse.x = null;
+    mouse.y = null;
+  });
+
+  window.addEventListener('resize', resize);
+  
+  // Initialize
+  resize();
+  requestAnimationFrame(animate);
 }
 
-// Call this function on page load
+// Call this once when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-  initInteractiveBackground();
-  // ... rest of your existing DOMContentLoaded code
+   const yearSpan = document.getElementById('year');
+  if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+
+  // 2. Interactive circuit constellation background
+  initCircuitBackground();
+
+  // 4. Animated skill progress bars
+  initSkillBars();
+
+  // 5. Projects filtering & rendering
+  buildFilterBar();
+  renderProjects();
+
+  // 6. Navigation & scroll behaviors
+  initSmoothScroll();
+  initFadeInObserver();
+  initMobileNav();
+  initHeaderScroll();
+
+  // 7. Contact form validation & submission
+  initContactForm();
+
+  // 8. Project card click handler (event delegation)
+  document.getElementById('projects-container')?.addEventListener('click', handleProjectClick);
 });
