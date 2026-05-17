@@ -19,6 +19,8 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+a { text-decoration: none; }
+
 html { 
   scroll-behavior: smooth; 
   scroll-padding-top: 90px;
@@ -169,8 +171,11 @@ section {
 }
 
 /* About */
-.about-grid { 
-  display: grid; grid-template-columns: 1fr; gap: 2.5rem; align-items: center; 
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* ← Changed from 1fr to split equally */
+  gap: 2.5rem;
+  align-items: center;
 }
 .about-text p { margin-bottom: 1.2rem; color: var(--text-secondary); font-size: clamp(1rem, 2.5vw, 1.1rem); }
 .about-stats { display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; }
@@ -289,8 +294,11 @@ section {
 }
 
 /* Contact */
-.contact-wrapper { 
-  display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: start; 
+.contact-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* ← Changed from 1fr to split equally */
+  gap: 3rem;
+  align-items: start;
 }
 .contact-info h3 { font-size: clamp(1.4rem, 4vw, 1.8rem); margin-bottom: 1rem; }
 .contact-info p { color: var(--text-secondary); margin-bottom: 2rem; font-size: clamp(1rem, 2.5vw, 1.05rem); }
@@ -444,18 +452,6 @@ h2 {
 /* Fix for iOS viewport height issues */
 @supports (-webkit-touch-callout: none) {
   .hero { min-height: -webkit-fill-available; }
-}
-
-/* Add this at the top of your CSS, after the root variables */
-#circuit-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.85;
 }
 
 /* Mobile: allow horizontal scroll but keep centered on desktop */
