@@ -8,97 +8,48 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
 </head>
 <body>
-  <header class="hero">
-    <h1>Mahmoud Samer</h1>
-    <p>Software Engineering Student • Full-Stack • Game Dev • Embedded</p>
-    <div class="cta">
-      <a href="#projects" class="btn primary">View Projects</a>
-      <a href="https://github.com/MahmoudSamerAli" target="_blank" class="btn secondary">GitHub</a>
-      <a href="mailto:mahmoud.samer2005@gmail.com" class="btn secondary">Contact</a>
+
+    <div class="boot-loader" id="bootLoader">
+      <div class="boot-text">>_ SYSTEM BOOT // CYBERDECK</div>
+      <div class="boot-progress">
+        <div class="boot-progress-bar" id="bootProgressBar"></div>
+      </div>
+      <div style="margin-top: 1rem; font-size: 0.8rem; color: #0afff0;">INITIALIZING NEON GRID...</div>
     </div>
-  </header>
-
-  <main>
-    <section id="about">
-      <h2>About</h2>
-      <p>3rd-year Software Engineering student at AASTMT with hands-on experience in full-stack web development, OOP architectures, AI/data pipelines, and embedded systems. Passionate about building scalable, user-focused software across disciplines.</p>
-    </section>
-
-    <section id="skills">
-      <h2>Tech Stack</h2>
-      <div class="skills-grid">
-        <div class="skill-tag">Python</div><div class="skill-tag">Java</div><div class="skill-tag">C/C++/C#</div>
-        <div class="skill-tag">JavaScript</div><div class="skill-tag">React.js</div><div class="skill-tag">Node.js</div>
-        <div class="skill-tag">PHP/SQL</div><div class="skill-tag">Flutter</div><div class="skill-tag">Unity/Blender</div>
-        <div class="skill-tag">Arduino</div><div class="skill-tag">Git/GitHub</div><div class="skill-tag">MSSQL</div>
+    
+    <!-- MAIN MENU SCREEN -->
+    <div class="screen main-menu" id="mainMenu">
+      <div class="main-menu">
+        <div class="game-title">◢ CYBER//VAULT ◣</div>
+        <div class="game-sub">[ INTERACTIVE PORTFOLIO ]</div>
+        <div class="typing-area" id="typingDemo"></div>
+        <button class="start-btn" id="startGameBtn">▶ START GAME</button>
+        <div style="margin-top: 3rem; font-size: 0.7rem; letter-spacing: 2px;">15 MISSIONS // 15 PROJECTS</div>
       </div>
-    </section>
-
-    <section id="projects">
-      <h2>Featured Projects</h2>
-      <div class="project-grid">
-        <article class="project-card">
-          <h3>Advanced Zoo Management System</h3>
-          <p class="tech">Java • OOP • 9 Design Patterns • GUI • File I/O</p>
-          <p>Enterprise-grade desktop app with role-based access, persistent storage, and scalable architecture using Singleton, Observer, Strategy, Factory, and more.</p>
-          <a href="#" class="project-link">View Code →</a>
-        </article>
-
-        <article class="project-card">
-          <h3>Classroom Attendance & Emotion Detection</h3>
-          <p class="tech">Python • OpenCV • R • AI/ML</p>
-          <p>Automated attendance via facial recognition + AI-driven emotion tracking. R used for statistical analysis of classroom engagement trends.</p>
-          <a href="#" class="project-link">View Code →</a>
-        </article>
-
-        <article class="project-card">
-          <h3>Bluetooth RC Car (Arduino)</h3>
-          <p class="tech">Arduino C/C++ • Sensors • PWM • Bluetooth</p>
-          <p>Semi-autonomous robotic car with motor control, ultrasonic obstacle avoidance, and wireless remote interface.</p>
-          <a href="#" class="project-link">View Code →</a>
-        </article>
-
-        <article class="project-card">
-          <h3>Event Management Web App</h3>
-          <p class="tech">Java Servlets • JSP • MVC • HTML/CSS</p>
-          <p>Full MVC web application with server-side rendering, responsive UI, and modular backend logic.</p>
-          <a href="#" class="project-link">View Code →</a>
-        </article>
-      </div>
-    </section>
-
-    <section id="experience">
-      <h2>Experience</h2>
-      <div class="timeline">
-        <div class="timeline-item">
-          <h4>Robotics Engineer Intern</h4>
-          <span class="meta">GDG On Campus • Oct 2025 – Present</span>
-          <p>Built & programmed Arduino-based RC car with sensor integration, motor control, and wireless communication.</p>
-        </div>
-        <div class="timeline-item">
-          <h4>Front-End Developer Intern</h4>
-          <span class="meta">Flexe Soft • Jul 2025 – Sep 2025</span>
-          <p>Developed React logistics dashboard, integrated REST APIs, reduced manual data entry by 25%.</p>
-        </div>
-        <div class="timeline-item">
-          <h4>Web Developer Intern</h4>
-          <span class="meta">GDG On Campus • Oct 2024 – Aug 2025</span>
-          <p>Built 4+ responsive web apps, improved page speed by 20%, collaborated via GitHub workflows.</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer id="contact">
-    <h2>Let's Connect</h2>
-    <p>mahmoud.samer2005@gmail.com</p>
-    <div class="socials">
-      <a href="https://github.com/MahmoudSamerAli" target="_blank">GitHub</a>
-      <a href="https://linkedin.com/in/mahmoud-samer" target="_blank">LinkedIn</a>
-      <a href="tel:+201027993246">+20 102 799 3246</a>
     </div>
-    <p class="copyright">© 2026 Mahmoud Samer. Built with vanilla HTML/CSS/JS.</p>
-  </footer>
+    
+    <!-- PROJECT HUB (LEVEL SELECT) -->
+    <div class="screen project-hub hidden" id="projectHub">
+      <div class="hub-header">
+        <div class="hub-title neon-glow">⚡ MISSION BRIEFING // LEVEL SELECT</div>
+        <button class="lobby-btn" id="returnLobbyBtn">⟲ RETURN TO LOBBY</button>
+      </div>
+      <div class="projects-grid" id="projectsGrid"></div>
+    </div>
+    
+    <!-- MODAL FOR PROJECT DETAILS -->
+    <div class="modal-overlay" id="projectModal">
+      <div class="modal-content">
+        <h2 id="modalTitle">PROJECT_NAME</h2>
+        <p class="modal-desc" id="modalDesc">Project description will appear here.</p>
+        <div class="modal-tech" id="modalTech">Tech Stack: --</div>
+        <div class="modal-buttons">
+          <a href="#" id="demoLink" target="_blank" class="modal-btn">🖥️ LIVE DEMO</a>
+          <a href="#" id="githubLink" target="_blank" class="modal-btn">🐙 GITHUB REPO</a>
+        </div>
+        <button class="modal-btn close-modal" id="closeModalBtn">◀ BACK TO MISSIONS</button>
+      </div>
+    </div>
 
   <script src="script.js"></script>
 </body>
