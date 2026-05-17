@@ -381,3 +381,147 @@ function initHeaderScroll() {
     }
   });
 }
+
+// ============================================
+// INTERACTIVE PARTICLE BACKGROUND
+// ============================================
+function initInteractiveBackground() {
+  const canvas = document.createElement('canvas');
+  canvas.id = 'particleCanvas';
+  canvas.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+  `;
+  document.body.insertBefore(canvas, document.body.firstChild);
+  
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let particles = [];
+  let mouse = { x: null, y: null, radius: 150 };
+  
+  // Set canvas size
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  
+  window.addEventListener('resize', resize);
+  resize();
+  
+  // Track mouse movement
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.x;
+    mouse.y = e.y;
+  });
+  
+  window.addEventListener('mouseout', () => {
+    mouse.x = null;
+    mouse.y = null;
+  });
+  
+  // Particle class
+  class Particle {
+    constructor() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.vx = (Math.random() - 0.5) * 0.5;
+      this.vy = (Math.random() - 0.5) * 0.5;
+      this.size = Math.random() * 2 + 1;
+      this.baseX = this.x;
+      this.baseY = this.y;
+      this.density = (Math.random() * 30) + 1;
+    }
+    
+    update() {
+      // Normal movement
+      this.x += this.vx;
+      this.y += this.vy;
+      
+      // Bounce off edges
+      if (this.x < 0 || this.x > width) this.vx *= -1;
+      if (this.y < 0 || this.y > height) this.vy *= -1;
+      
+      // Mouse interaction
+      if (mouse.x != null) {
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance < mouse.radius) {
+          const forceDirectionX = dx / distance;
+          const forceDirectionY = dy / distance;
+          const force = (mouse.radius - distance) / mouse.radius;
+          const directionX = forceDirectionX * force * this.density * 0.6;
+          const directionY = forceDirectionY * force * this.density * 0.6;
+          
+          this.x -= directionX;
+          this.y -= directionY;
+        }
+      }
+    }
+    
+    draw() {
+      ctx.fillStyle = 'rgba(30, 136, 229, 0.5)';
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+  
+  // Initialize particles
+  function init() {
+    particles = [];
+    const numberOfParticles = (width * height) / 15000; // Responsive density
+    for (let i = 0; i < numberOfParticles; i++) {
+      particles.push(new Particle());
+    }
+  }
+  
+  // Connect particles with lines
+  function connect() {
+    let opacityValue = 1;
+    for (let a = 0; a < particles.length; a++) {
+      for (let b = a; b < particles.length; b++) {
+        let distance = ((particles[a].x - particles[b].x) * (particles[a].x - particles[b].x))
+          + ((particles[a].y - particles[b].y) * (particles[a].y - particles[b].y));
+        
+        if (distance < (canvas.width/7) * (canvas.height/7)) {
+          opacityValue = 1 - (distance / 20000);
+          ctx.strokeStyle = `rgba(30, 136, 229, ${opacityValue * 0.15})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(particles[a].x, particles[a].y);
+          ctx.lineTo(particles[b].x, particles[b].y);
+          ctx.stroke();
+        }
+      }
+    }
+  }
+  
+  // Animation loop
+  function animate() {
+    requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, width, height);
+    
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
+    }
+    connect();
+  }
+  
+  init();
+  animate();
+}
+
+// Call this function on page load
+document.addEventListener('DOMContentLoaded', () => {
+  initInteractiveBackground();
+  // ... rest of your existing DOMContentLoaded code
+});
