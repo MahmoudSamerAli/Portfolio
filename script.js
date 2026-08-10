@@ -7,62 +7,62 @@ const projectsData = [
   {
     id: 1, title: "Prison Management DB",
     description: "Relational database managing inmate records, rehabilitation programs, and staff. Applied 1NF-3NF normalization with complex stored procedures.",
-    tech: ["MSSQL", "ERD", "Stored Procedures"], category: "Database", demo: "#", repo: "#"
+    tech: ["MSSQL", "ERD", "Stored Procedures"], category: "Database", demo: "#", repo: "https://github.com/MahmoudSamerAli/Prison_Database"
   },
   {
     id: 2, title: "Advanced Zoo System",
     description: "Implemented 9 design patterns (Singleton, Factory, Observer) with DB connectivity, modular GUI, and scalable architecture.",
-    tech: ["Java", "OOP", "Design Patterns"], category: "Software", demo: "#", repo: "#"
+    tech: ["Java", "OOP", "Design Patterns"], category: "Software", demo: "#", repo: "https://github.com/MahmoudSamerAli/Zoo_Management_System"
   },
   {
     id: 3, title: "Event Management Web App",
     description: "MVC-patterned web application using Java Servlets/JSP handling HTTP requests, dynamic rendering, and responsive UI.",
-    tech: ["Java", "Servlets", "JSP"], category: "Web", demo: "#", repo: "#"
+    tech: ["Java", "Servlets", "JSP"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/Event_Management_WebApp"
   },
   {
     id: 4, title: "Luxury Car Showroom",
     description: "Full-stack vehicle inventory & sales platform with authentication, interactive galleries, and relational database backend.",
-    tech: ["PHP", "SQL", "JavaScript"], category: "Web", demo: "#", repo: "#"
+    tech: ["PHP", "SQL", "JavaScript"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/Car_Showroom_PHP"
   },
   {
     id: 5, title: "Attendance & Emotion AI",
     description: "Facial recognition attendance tracker with AI emotion detection. R used for statistical analysis and engagement visualization.",
-    tech: ["Python", "OpenCV", "R"], category: "AI", demo: "#", repo: "#"
+    tech: ["Python", "OpenCV", "R"], category: "AI", demo: "#", repo: "https://github.com/MahmoudSamerAli/Classroom_Emotion_AI"
   },
   {
     id: 6, title: "SmartBite Web App",
     description: "Converted mobile UI to responsive web application using Flask. Implemented unit, integration, and manual UI testing.",
-    tech: ["Flask", "Python", "Testing"], category: "Web", demo: "#", repo: "#"
+    tech: ["Flask", "Python", "Testing"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/SmartBite_WebApp"
   },
   {
     id: 7, title: "Infix to Postfix Calculator",
     description: "Expression evaluator using Shunting-yard algorithm & expression trees. Web UI shows step-by-step conversion.",
-    tech: ["C++", "JavaScript", "Algorithms"], category: "Software", demo: "#", repo: "#"
+    tech: ["C++", "JavaScript", "Algorithms"], category: "Software", demo: "#", repo: "https://github.com/MahmoudSamerAli/Postfix_Calculator"
   },
   {
     id: 8, title: "Numerical Methods Calculator",
     description: "Interactive web solver for Bisection, Jacobi, Lagrange Interpolation, and other computational techniques.",
-    tech: ["HTML", "CSS", "JavaScript"], category: "Web", demo: "#", repo: "#"
+    tech: ["HTML", "CSS", "JavaScript"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/Numerical_Methods_Calculator"
   },
   {
     id: 9, title: "Data Pipeline Automation",
     description: "Automated cleaning of 10K+ records using Pandas, reducing manual reporting time by 10+ hrs/week and cutting errors by 30%.",
-    tech: ["Python", "Pandas", "SQL"], category: "Data", demo: "#", repo: "#"
+    tech: ["Python", "Pandas", "SQL"], category: "Data", demo: "#", repo: "https://github.com/MahmoudSamerAli/Data_Pipeline_Automation"
   },
   {
     id: 10, title: "Restaurant Management DB",
     description: "Comprehensive reservation & order tracking system with ERD design, login forms, reporting, and data validation.",
-    tech: ["MS Access", "SQL", "VBA"], category: "Database", demo: "#", repo: "#"
+    tech: ["MS Access", "SQL", "VBA"], category: "Database", demo: "#", repo: "https://github.com/MahmoudSamerAli/Restaurant_Management_System"
   },
   {
     id: 11, title: "Smart RC Car (Arduino)",
     description: "Bluetooth-controlled chassis with PWM motor regulation, ultrasonic obstacle avoidance, and semi-autonomous routing.",
-    tech: ["Arduino", "C++", "Sensors"], category: "Hardware", demo: "#", repo: "#"
+    tech: ["Arduino", "C++", "Sensors"], category: "Hardware", demo: "#", repo: "https://github.com/MahmoudSamerAli/Smart_RC_Car"
   },
   {
     id: 12, title: "Digital Alarm Clock",
     description: "Designed digital clock circuit using decade counters, BCD-to-7-segment decoders, and piezo buzzer alarm logic in Multisim.",
-    tech: ["Multisim", "Digital Logic", "Hardware"], category: "Hardware", demo: "#", repo: "#"
+    tech: ["Multisim", "Digital Logic", "Hardware"], category: "Hardware", demo: "#", repo: "https://github.com/MahmoudSamerAli/Digital_Alarm_Clock"
   },
   {
     id: 13, title: "Online Store UML Documentation",
@@ -70,14 +70,84 @@ const projectsData = [
     tech: ["UML", "System Design", "Documentation"], category: "Design", demo: "#", repo: "#"
   },
   {
-    id: 14, title: "Marketing Agency UX Design",
-    description: "Complete UX prototype featuring user flows, wireframes, and polished interface focused on usability and modern aesthetics.",
-    tech: ["Figma", "UX/UI", "Prototyping"], category: "Design", demo: "#", repo: "#"
+    id: 14, title: "Sorting Algorithms Analysis",
+    description: "Implemented Bubble & Selection Sort. Analyzed correctness, execution flow, and comparative time complexity performance.",
+    tech: ["Python", "Algorithms", "Analysis"], category: "Algorithms", demo: "#", repo: "https://github.com/MahmoudSamerAli/Sorting_Algorithms_Analysis"
   },
   {
-    id: 15, title: "Sorting Algorithms Analysis",
-    description: "Implemented Bubble & Selection Sort. Analyzed correctness, execution flow, and comparative time complexity performance.",
-    tech: ["Python", "Algorithms", "Analysis"], category: "Algorithms", demo: "#", repo: "#"
+    id: 15, title: "InfoLink",
+    description: "Spring Boot backend linking learners to tech opportunities - Java/Maven layered architecture with full API surface.",
+    tech: ["Java", "Spring Boot", "Maven"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/InfoLink"
+  },
+  {
+    id: 16, title: "Life on Land Zoo",
+    description: "Java OOP zoo management GUI with animal/employee records, file-based database, biomes, and staff tracking.",
+    tech: ["Java", "OOP", "File I/O"], category: "Software", demo: "#", repo: "https://github.com/MahmoudSamerAli/Life_on_Land_Zoo"
+  },
+  {
+    id: 17, title: "ArmorFit Store",
+    description: "Full-stack e-commerce store with product catalog, checkout flow, auth, and admin dashboard backed by MSSQL.",
+    tech: ["HTML", "CSS", "JavaScript", "MSSQL"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/ArmorFit"
+  },
+  {
+    id: 18, title: "Supermarket El-Aqarya",
+    description: "Multi-page real estate website presenting properties, areas, and developers with a responsive catalog.",
+    tech: ["HTML", "CSS", "JavaScript"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/Supermarket_El_Aqarya"
+  },
+  {
+    id: 19, title: "AI Recipe Maker",
+    description: "Django REST API with recipe & ingredient models, ETL data loading scripts, and Postgres-backed persistence.",
+    tech: ["Django", "Python", "PostgreSQL"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/AI_Recipe_Maker"
+  },
+  {
+    id: 20, title: "ToDoList React",
+    description: "Modern task manager built with React + Vite - component architecture, hooks, and state-driven UI.",
+    tech: ["React.js", "JavaScript", "Vite"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/ToDoList_React"
+  },
+  {
+    id: 21, title: "CyberSnake",
+    description: "Cybersecurity-themed Snake game in Python with difficulty quiz levels (JSON question banks) and score tracking.",
+    tech: ["Python", "Games", "Cybersecurity"], category: "Software", demo: "#", repo: "https://github.com/MahmoudSamerAli/CyberSnake"
+  },
+  {
+    id: 22, title: "MDeals Car Pages",
+    description: "Luxury car brand showcase site (Audi, Cadillac, Dodge, Mercedes) with per-brand galleries and login screen.",
+    tech: ["HTML", "CSS", "JavaScript"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/MDeals"
+  },
+  {
+    id: 23, title: "MyApplication (Android)",
+    description: "Kotlin Android app with camera, discover, favorites, and history screens - Jetpack-style Material UI.",
+    tech: ["Kotlin", "Android", "Gradle"], category: "Software", demo: "#", repo: "https://github.com/MahmoudSamerAli/MyApplication_Android"
+  },
+  {
+    id: 24, title: "Instapay Web App",
+    description: "Bilingual digital wallet web app with auth, transactions, AI chat assistant, and dashboards.",
+    tech: ["JavaScript", "HTML", "CSS"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/Instapay_WebApp"
+  },
+  {
+    id: 25, title: "Workspace Real Estate",
+    description: "Real estate platform with properties, areas, and developer pages - multi-page responsive site.",
+    tech: ["HTML", "CSS", "JavaScript"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/Workspace_RealEstate"
+  },
+  {
+    id: 26, title: "AASTMT Hackathon",
+    description: "Hackathon student platform with sign-up, majors, and sections pages - rapid team-based build.",
+    tech: ["HTML", "CSS", "JavaScript"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/AASTMT_Hackathon"
+  },
+  {
+    id: 27, title: "fold-bags",
+    description: "E-commerce storefront with admin panel, checkout flow, and Cloudflare Pages serverless functions.",
+    tech: ["HTML", "JavaScript", "Cloudflare"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/fold-bags"
+  },
+  {
+    id: 28, title: "Miraya Bags",
+    description: "Bag brand showcase site with product pages and brand-focused UI.",
+    tech: ["HTML", "CSS", "JavaScript"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/Miraya_Bags"
+  },
+  {
+    id: 29, title: "MSA",
+    description: "Multi-section web project with styling systems and component pages.",
+    tech: ["CSS", "HTML", "JavaScript"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/MSA"
   }
 ];
 
@@ -89,12 +159,9 @@ const skillsData = [
   { name: "SQL", icon: "fas fa-database" },
   { name: "JavaScript", icon: "fab fa-js" },
   { name: "React.js", icon: "fab fa-react" },
-  { name: "Node.js", icon: "fab fa-node" },
-  { name: "Flutter", icon: "fas fa-mobile-alt" },
   { name: "Arduino", icon: "fas fa-microchip" },
   { name: "Git/GitHub", icon: "fab fa-git-alt" },
-  { name: "MSSQL", icon: "fas fa-server" },
-  { name: "Figma", icon: "fab fa-figma" }
+  { name: "MSSQL", icon: "fas fa-server" }
 ];
 
 // State
