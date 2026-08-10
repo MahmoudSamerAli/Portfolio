@@ -142,16 +142,6 @@ const projectsData = [
     id: 27, title: "fold-bags",
     description: "E-commerce storefront with admin panel, checkout flow, and Cloudflare Pages serverless functions.",
     tech: ["HTML", "JavaScript", "Cloudflare"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/fold-bags"
-  },
-  {
-    id: 28, title: "Miraya Bags",
-    description: "Bag brand showcase site with product pages and brand-focused UI.",
-    tech: ["HTML", "CSS", "JavaScript"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/Miraya_Bags"
-  },
-  {
-    id: 29, title: "MSA",
-    description: "Multi-section web project with styling systems and component pages.",
-    tech: ["CSS", "HTML", "JavaScript"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/MSA"
   }
 ];
 
@@ -173,30 +163,30 @@ const timelineData = [
   {
     role: "Data Science & Analytics Trainee",
     org: "Digital Egypt Pioneers Initiative (DEPI)",
-    period: "2024 – Present",
+    period: "2024 – 2025",
     icon: "fas fa-chart-line",
     points: ["IBM-backed Data Science track", "Built Pandas ETL pipelines on 10K+ records", "SQL analytics + R statistical modeling"]
   },
   {
     role: "Software Engineering Intern",
     org: "Flexe Soft",
-    period: "2024",
+    period: "2025",
     icon: "fas fa-briefcase",
     points: ["Delivered production-ready features", "Optimized performance in agile sprints", "Collaborated across cross-functional teams"]
   },
   {
-    role: "Member & Trainee",
+    role: "Member of Web Development Club",
     org: "Google Developer Groups (GDG)",
-    period: "2023 – 2024",
+    period: "2024 – 2025",
     icon: "fas fa-users",
-    points: ["Full-stack web development workshops", "Built Arduino robotics projects (RC car)", "Led community learning sessions"]
+    points: ["Full-stack web development workshops"]
   },
   {
-    role: "Chief Activity Officer",
-    org: "GDG Rapid Relief (RR)",
-    period: "2023",
-    icon: "fas fa-star",
-    points: ["Organized student technical events", "Coordinated teams & sponsorships", "Drove community engagement"]
+    role: "Member Of The Robotics Club",
+    org: "GDGoC",
+    period: "2025 - 2026",
+    icon: "fas fa-users",
+    points: ["Built Arduino robotics projects (RC car)"]
   }
 ];
 
