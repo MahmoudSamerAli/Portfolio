@@ -4,78 +4,103 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Mahmoud Samer | Software Engineer</title>
-  <!-- Google Fonts + Font Awesome -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="description" content="Software Engineering student at AASTMT. Full-stack development, data engineering, and scalable architecture. Explore 29+ projects.">
+  <meta name="theme-color" content="#07050F">
+  <meta property="og:title" content="Mahmoud Samer | Software Engineer">
+  <meta property="og:description" content="Full-stack developer, data engineer & problem solver. 29+ projects on GitHub.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <!-- Fonts: Space Grotesk (display) + Inter (body) + Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
+  <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
 </head>
 <body>
-  <header class="header">
+  <!-- Aurora background -->
+  <div class="bg-aurora" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+    <span class="noise-layer"></span>
+  </div>
+
+  <!-- Scroll progress bar -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <header class="header" id="header">
     <div class="nav-container">
-      <pre style="font-family: monospace; font-size: clamp(2px, 0.5vw, 5px); line-height: 1.1; margin: 0; white-space: pre; color: inherit; display: inline-block;">
-        ██████╗ ██████╗  █████╗  ██████╗  ██████╗ ███╗   ██╗
-        ██╔══██╗██╔══██╗██╔══██╗██╔════╝ ██╔═══██╗████╗  ██║
-        ██║  ██║██████╔╝███████║██║  ███╗██║   ██║██╔██╗ ██║
-        ██║  ██║██╔══██╗██╔══██║██║   ██║██║   ██║██║╚██╗██║
-        ██████╔╝██║  ██║██║  ██║╚██████╔╝╚██████╔╝██║ ╚████║
-        ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝
-      </pre>
-      <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
+      <a href="#home" class="logo" aria-label="Home">
+        <span class="logo-mark">MS</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home" class="active">Home</a></li>
         <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
         <li><a href="#skills">Skills</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-      <button class="mobile-toggle" aria-label="Toggle menu">
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
   </header>
 
   <main>
-    <!-- Hero Section -->
+    <!-- ============ HERO ============ -->
     <section id="home" class="hero fade-up">
       <div class="container hero-content">
-        <p class="hero-tagline">Software Engineering Student & Developer</p>
-        <h1>Mahmoud Samer<br><span class="subtitle">Building Innovative Software Solutions</span></h1>
+        <span class="hero-badge"><i class="fas fa-sparkles"></i> Open to Internships &amp; Entry-Level Roles</span>
+        <div class="hero-avatar" aria-hidden="true">
+          <span class="avatar-initials">MS</span>
+          <span class="avatar-ring"></span>
+        </div>
+        <p class="hero-tagline">Software Engineering Student &amp; Developer</p>
+        <h1>Mahmoud Samer<br><span class="gradient-text">I build <span id="typedRole" class="typed-role"></span><span class="caret" aria-hidden="true"></span></span></h1>
         <p class="hero-desc">Passionate about full-stack development, data engineering, and scalable architecture. Transforming complex problems into efficient, production-ready applications.</p>
         <div class="btn-group">
           <a href="#projects" class="btn btn-primary"><i class="fas fa-code"></i> View Projects</a>
           <a href="#contact" class="btn btn-outline"><i class="fas fa-paper-plane"></i> Contact Me</a>
         </div>
+        <div class="hero-quick-stats">
+          <span><i class="fab fa-github"></i> 28+ repos</span>
+          <span><i class="fas fa-graduation-cap"></i> AASTMT · SWE</span>
+          <span><i class="fas fa-map-marker-alt"></i> Alexandria, Egypt</span>
+        </div>
       </div>
       <div class="hero-glow"></div>
     </section>
 
-    <!-- About Section -->
+    <!-- ============ ABOUT ============ -->
     <section id="about" class="fade-up">
       <div class="container">
-        <h2>About Me</h2>
+        <h2>About <span class="gradient-text">Me</span></h2>
         <div class="about-grid">
           <div class="about-text">
             <p>I'm a 3rd-year Software Engineering student at AASTMT with a strong foundation in Python, Java, C++, and SQL. My journey spans full-stack web development, OOP-based desktop applications, data engineering, and embedded systems.</p>
             <p>Through internships at Google Developer Groups, Flexe Soft, and the Digital Egypt Pioneers Initiative, I've honed my ability to deliver production-ready features, optimize performance, and collaborate effectively in agile environments. I thrive on solving complex challenges and continuously expanding my technical toolkit.</p>
             <div class="about-stats">
-              <div class="stat"><h3>29+</h3><p>Projects</p></div>
-              <div class="stat"><h3>3</h3><p>Internships</p></div>
-              <div class="stat"><h3>3.2</h3><p>GPA / 4.0</p></div>
+              <div class="stat"><h3><span class="counter" data-target="29" data-suffix="+">0</span></h3><p>Projects</p></div>
+              <div class="stat"><h3><span class="counter" data-target="3">0</span></h3><p>Internships</p></div>
+              <div class="stat"><h3><span class="counter" data-target="3.2" data-decimals="1">0</span></h3><p>GPA / 4.0</p></div>
             </div>
           </div>
           <div class="about-card">
-            <div class="terminal">
+            <div class="terminal" id="terminal">
               <div class="terminal-header">
                 <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
                 <span class="terminal-title">mahmoud@portfolio:~</span>
               </div>
-              <div class="terminal-body">
+              <div class="terminal-body" id="terminalBody">
                 <p><span class="prompt">$</span> whoami</p>
                 <p class="output">Mahmoud Samer | Software Engineer</p>
                 <p><span class="prompt">$</span> cat focus_areas.txt</p>
                 <p class="output">Full-Stack Web • OOP Systems • Data Engineering • Embedded</p>
                 <p><span class="prompt">$</span> status</p>
-                <p class="output success">✔ Open to Internships & Entry-Level Roles</p>
+                <p class="output success">✔ Open to Internships &amp; Entry-Level Roles</p>
               </div>
             </div>
           </div>
@@ -83,46 +108,92 @@
       </div>
     </section>
 
-    <!-- Skills Section -->
+    <!-- ============ EXPERIENCE ============ -->
+    <section id="experience" class="fade-up">
+      <div class="container">
+        <h2>Experience <span class="gradient-text">Journey</span></h2>
+        <p class="section-sub">Internships &amp; programs that shaped my engineering mindset</p>
+        <div class="timeline" id="timeline"></div>
+      </div>
+    </section>
+
+    <!-- ============ EDUCATION ============ -->
+    <section id="education" class="fade-up">
+      <div class="container">
+        <h2>Education <span class="gradient-text">&amp; Certifications</span></h2>
+        <div class="edu-grid">
+          <div class="edu-card">
+            <div class="edu-icon"><i class="fas fa-graduation-cap"></i></div>
+            <h3>Arab Academy for Science, Technology &amp; Maritime Transport</h3>
+            <span class="edu-meta">B.Sc. Software Engineering · 2022 – 2026 (Expected)</span>
+            <p>GPA 3.2/4.0 — Core focus on data structures, DB systems, algorithms, web programming, and software process models.</p>
+            <div class="edu-chips">
+              <span>Data Structures</span><span>Database Systems</span><span>Algorithms</span>
+              <span>Web Programming</span><span>Software Engineering</span><span>OOP</span>
+            </div>
+          </div>
+          <div class="edu-card">
+            <div class="edu-icon"><i class="fas fa-award"></i></div>
+            <h3>Digital Egypt Pioneers Initiative (DEPI)</h3>
+            <span class="edu-meta">IBM Data Science &amp; Analytics Track</span>
+            <p>Python for data science, Pandas ETL pipelines, statistical analysis with R, and SQL-based analytics.</p>
+            <div class="edu-chips">
+              <span>Python</span><span>Pandas</span><span>SQL</span><span>R</span><span>Data Analysis</span>
+            </div>
+          </div>
+          <div class="edu-card">
+            <div class="edu-icon"><i class="fas fa-certificate"></i></div>
+            <h3>Google Developer Groups · CodeAlpha · GDG RR</h3>
+            <span class="edu-meta">Leadership &amp; Hands-on Training</span>
+            <p>Technical workshops, Arduino robotics training, and hackathon collaboration with developer communities.</p>
+            <div class="edu-chips">
+              <span>Arduino</span><span>Web Dev</span><span>Public Speaking</span><span>Teamwork</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SKILLS ============ -->
     <section id="skills" class="fade-up">
       <div class="container">
-        <h2>Tech Arsenal</h2>
+        <h2>Tech <span class="gradient-text">Arsenal</span></h2>
         <div class="skills-grid" id="skills-container"></div>
       </div>
     </section>
 
-    <!-- Projects Section -->
+    <!-- ============ PROJECTS ============ -->
     <section id="projects" class="fade-up">
       <div class="container">
-        <h2>Featured Projects</h2>
+        <h2>Featured <span class="gradient-text">Projects</span></h2>
         <p class="section-sub">29 professional projects — clean code, real impact</p>
         <div class="filter-bar" id="filter-bar"></div>
         <div id="projects-container" class="projects-grid"></div>
       </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- ============ CONTACT ============ -->
     <section id="contact" class="fade-up">
       <div class="container">
-        <h2>Let's Connect</h2>
+        <h2>Let's <span class="gradient-text">Connect</span></h2>
         <div class="contact-wrapper">
           <div class="contact-info">
             <h3>Ready to collaborate?</h3>
             <p>I'm currently seeking internship and entry-level opportunities. Whether you have a project idea, a question, or just want to connect, feel free to reach out.</p>
             <ul class="contact-links">
-              <li><i class="fas fa-envelope"></i> mahmoud.samer2005@gmail.com</li>
-              <li><i class="fas fa-phone"></i> +20 102 799 3246</li>
-              <li><i class="fab fa-linkedin"></i> linkedin.com/in/mahmoud-samer</li>
-              <li><i class="fab fa-github"></i> github.com/MahmoudSamerAli</li>
+              <li><a href="mailto:mahmoud.samer2005@gmail.com"><i class="fas fa-envelope"></i> mahmoud.samer2005@gmail.com</a></li>
+              <li><a href="tel:+201027993246"><i class="fas fa-phone"></i> +20 102 799 3246</a></li>
+              <li><a href="https://linkedin.com/in/mahmoud-samer" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> linkedin.com/in/mahmoud-samer</a></li>
+              <li><a href="https://github.com/MahmoudSamerAli" target="_blank" rel="noopener"><i class="fab fa-github"></i> github.com/MahmoudSamerAli</a></li>
             </ul>
           </div>
-          <form id="contactForm" class="contact-form">
+          <form id="contactForm" class="contact-form" novalidate>
             <div class="form-group">
-              <input type="text" id="name" placeholder="Your Name" autocomplete="off">
+              <input type="text" id="name" placeholder="Your Name" autocomplete="name">
               <div class="error-msg" id="nameError"></div>
             </div>
             <div class="form-group">
-              <input type="email" id="email" placeholder="your@email.com">
+              <input type="email" id="email" placeholder="your@email.com" autocomplete="email">
               <div class="error-msg" id="emailError"></div>
             </div>
             <div class="form-group">
@@ -130,7 +201,7 @@
               <div class="error-msg" id="msgError"></div>
             </div>
             <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> Send Message</button>
-            <p class="form-status" id="formStatus"></p>
+            <p class="form-status" id="formStatus" role="status"></p>
           </form>
         </div>
       </div>
@@ -140,14 +211,19 @@
   <footer>
     <div class="container footer-content">
       <p>© <span id="year"></span> Mahmoud Samer.</p>
+      <nav class="footer-nav" aria-label="Footer">
+        <a href="#home">Home</a><a href="#about">About</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
+      </nav>
       <div class="social-links">
-        <a href="https://github.com/MahmoudSamerAli" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="https://linkedin.com/in/mahmoud-samer" target="_blank"><i class="fab fa-linkedin"></i></a>
-        <a href="mailto:mahmoud.samer2005@gmail.com"><i class="fas fa-envelope"></i></a>
+        <a href="https://github.com/MahmoudSamerAli" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://linkedin.com/in/mahmoud-samer" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="mailto:mahmoud.samer2005@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
       </div>
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-chevron-up"></i></button>
+
+  <script src="script.js" defer></script>
 </body>
 </html>

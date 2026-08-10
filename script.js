@@ -2,7 +2,11 @@
 // MAHMOUD SAMER - PORTFOLIO (Vanilla JS)
 // ============================================
 
-// Projects Database - 15 projects from CV (NO GAMES)
+// ============================================
+// DATA
+// ============================================
+
+// Projects Database
 const projectsData = [
   {
     id: 1, title: "Prison Management DB",
@@ -153,41 +157,93 @@ const projectsData = [
 
 // Skills Data
 const skillsData = [
-  { name: "Python", icon: "fab fa-python" },
-  { name: "Java", icon: "fab fa-java" },
-  { name: "C/C++", icon: "fas fa-code" },
-  { name: "SQL", icon: "fas fa-database" },
-  { name: "JavaScript", icon: "fab fa-js" },
-  { name: "React.js", icon: "fab fa-react" },
-  { name: "Arduino", icon: "fas fa-microchip" },
-  { name: "Git/GitHub", icon: "fab fa-git-alt" },
-  { name: "MSSQL", icon: "fas fa-server" }
+  { name: "Python", icon: "fab fa-python", accent: "#4B8BBE" },
+  { name: "Java", icon: "fab fa-java", accent: "#E76F00" },
+  { name: "C/C++", icon: "fas fa-code", accent: "#659AD2" },
+  { name: "SQL", icon: "fas fa-database", accent: "#F29111" },
+  { name: "JavaScript", icon: "fab fa-js", accent: "#F7DF1E" },
+  { name: "React.js", icon: "fab fa-react", accent: "#61DAFB" },
+  { name: "Arduino", icon: "fas fa-microchip", accent: "#00979C" },
+  { name: "Git/GitHub", icon: "fab fa-git-alt", accent: "#F05032" },
+  { name: "MSSQL", icon: "fas fa-server", accent: "#CC2927" }
 ];
+
+// Experience timeline data
+const timelineData = [
+  {
+    role: "Data Science & Analytics Trainee",
+    org: "Digital Egypt Pioneers Initiative (DEPI)",
+    period: "2024 – Present",
+    icon: "fas fa-chart-line",
+    points: ["IBM-backed Data Science track", "Built Pandas ETL pipelines on 10K+ records", "SQL analytics + R statistical modeling"]
+  },
+  {
+    role: "Software Engineering Intern",
+    org: "Flexe Soft",
+    period: "2024",
+    icon: "fas fa-briefcase",
+    points: ["Delivered production-ready features", "Optimized performance in agile sprints", "Collaborated across cross-functional teams"]
+  },
+  {
+    role: "Member & Trainee",
+    org: "Google Developer Groups (GDG)",
+    period: "2023 – 2024",
+    icon: "fas fa-users",
+    points: ["Full-stack web development workshops", "Built Arduino robotics projects (RC car)", "Led community learning sessions"]
+  },
+  {
+    role: "Chief Activity Officer",
+    org: "GDG Rapid Relief (RR)",
+    period: "2023",
+    icon: "fas fa-star",
+    points: ["Organized student technical events", "Coordinated teams & sponsorships", "Drove community engagement"]
+  }
+];
+
+// Hero typing roles
+const heroRoles = ["Software Solutions", "Full-Stack Apps", "Data Pipelines", "Smart Systems"];
+
+// Category -> color/icon mapping
+const categoryStyle = {
+  Web:       { color: "#22D3EE", icon: "fa-globe" },
+  Software:  { color: "#8B5CF6", icon: "fa-code" },
+  Database:  { color: "#60A5FA", icon: "fa-database" },
+  AI:        { color: "#E879F9", icon: "fa-brain" },
+  Data:      { color: "#34D399", icon: "fa-chart-line" },
+  Hardware:  { color: "#FB7185", icon: "fa-microchip" },
+  Design:    { color: "#FBBF24", icon: "fa-drafting-compass" },
+  Algorithms:{ color: "#2DD4BF", icon: "fa-project-diagram" }
+};
 
 // State
 let currentFilter = "All";
+let repoMeta = {}; // repo name -> {stars, lang, updated}
 
 // ============================================
 // INITIALIZATION
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
-  // Dynamic year
   document.getElementById('year').textContent = new Date().getFullYear();
-  
-  // Render components
+
   renderSkills();
+  renderTimeline();
   buildFilterBar();
   renderProjects();
-  
-  // Initialize interactions
+
   initSmoothScroll();
   initFadeInObserver();
   initMobileNav();
   initContactForm();
   initHeaderScroll();
-  
-  // Project card interactions
+  initScrollProgress();
+  initScrollSpy();
+  initBackToTop();
+  initCounters();
+  initTyping();
+
   document.getElementById('projects-container')?.addEventListener('click', handleProjectClick);
+
+  enrichProjectsWithGitHub();
 });
 
 // ============================================
@@ -197,10 +253,29 @@ function renderSkills() {
   const container = document.getElementById('skills-container');
   if (!container) return;
   container.innerHTML = skillsData.map(skill => `
-    <div class="skill-chip">
+    <div class="skill-chip" style="--chip-accent:${skill.accent}">
       <i class="${skill.icon}"></i>${skill.name}
     </div>
   `).join('');
+}
+
+function renderTimeline() {
+  const container = document.getElementById('timeline');
+  if (!container) return;
+  container.innerHTML = timelineData.map(item => `
+    <div class="timeline-item fade-up">
+      <div class="timeline-marker"><i class="${item.icon}"></i></div>
+      <div class="timeline-card">
+        <span class="timeline-period">${item.period}</span>
+        <h3>${item.role}</h3>
+        <p class="timeline-org">${item.org}</p>
+        <ul>
+          ${item.points.map(p => `<li>${p}</li>`).join('')}
+        </ul>
+      </div>
+    </div>
+  `).join('');
+  initFadeInObserver();
 }
 
 function getUniqueCategories() {
@@ -211,15 +286,14 @@ function getUniqueCategories() {
 function buildFilterBar() {
   const filterBar = document.getElementById('filter-bar');
   if (!filterBar) return;
-  
+
   const categories = getUniqueCategories();
   filterBar.innerHTML = categories.map(cat => `
     <button class="filter-btn ${cat === currentFilter ? 'active' : ''}" data-filter="${cat}">
       ${cat}
     </button>
   `).join('');
-  
-  // Attach click events
+
   filterBar.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       currentFilter = btn.dataset.filter;
@@ -235,36 +309,81 @@ function updateActiveFilter() {
   });
 }
 
+function getRepoName(url) {
+  if (!url || url === '#') return null;
+  const parts = url.split('/');
+  return parts[parts.length - 1];
+}
+
 function renderProjects() {
   const container = document.getElementById('projects-container');
   if (!container) return;
-  
-  const filtered = currentFilter === 'All' 
-    ? projectsData 
+
+  const filtered = currentFilter === 'All'
+    ? projectsData
     : projectsData.filter(p => p.category === currentFilter);
-  
+
   if (filtered.length === 0) {
-    container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:3rem; color:var(--text-muted);">✨ No projects match this category ✨</div>`;
+    container.innerHTML = `<div class="no-projects">✨ No projects match this category ✨</div>`;
     return;
   }
-  
-  container.innerHTML = filtered.map(project => `
-    <div class="project-card">
-      <div class="project-title">${project.title}</div>
-      <div class="project-desc">${project.description}</div>
-      <div class="tech-stack">
-        ${project.tech.map(t => `<span class="tech-badge">${t}</span>`).join('')}
+
+  container.innerHTML = filtered.map(project => {
+    const style = categoryStyle[project.category] || { color: "#8B5CF6", icon: "fa-code" };
+    const meta = repoMeta[getRepoName(project.repo)];
+    const stars = meta ? meta.stars : null;
+
+    return `
+    <div class="project-card fade-up">
+      <div class="project-header" style="--card-accent:${style.color}">
+        <span class="project-category"><i class="fas ${style.icon}"></i> ${project.category}</span>
+        <span class="project-stars">
+          ${stars !== null ? `<i class="fas fa-star"></i> ${stars}` : `<i class="fas ${style.icon}"></i>`}
+        </span>
       </div>
-      <div class="card-buttons">
-        <a href="${project.repo}" class="card-btn" target="_blank" rel="noopener">
-          <i class="fab fa-github"></i> Code
-        </a>
-        <a href="${project.demo}" class="card-btn" target="_blank" rel="noopener">
-          <i class="fas fa-external-link-alt"></i> Demo
-        </a>
+      <div class="project-body">
+        <h3 class="project-title">${project.title}</h3>
+        <p class="project-desc">${project.description}</p>
+        <div class="tech-stack">
+          ${project.tech.map(t => `<span class="tech-badge">${t}</span>`).join('')}
+        </div>
+        <div class="card-buttons">
+          <a href="${project.repo}" class="card-btn ${project.repo === '#' ? 'disabled' : ''}" target="_blank" rel="noopener" ${project.repo === '#' ? 'aria-disabled="true"' : ''}>
+            <i class="fab fa-github"></i> Code
+          </a>
+          <a href="${project.demo}" class="card-btn ${project.demo === '#' ? 'hidden' : ''}" target="_blank" rel="noopener" ${project.demo === '#' ? 'aria-hidden="true" tabindex="-1"' : ''}>
+            <i class="fas fa-external-link-alt"></i> Demo
+          </a>
+        </div>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
+
+  initFadeInObserver();
+}
+
+// Fetch GitHub repo metadata in one batched request (avoids rate limits)
+async function enrichProjectsWithGitHub() {
+  try {
+    const res = await fetch('https://api.github.com/users/MahmoudSamerAli/repos?per_page=100&sort=updated', {
+      headers: { 'Accept': 'application/vnd.github+json' }
+    });
+    if (!res.ok) throw new Error('GitHub API ' + res.status);
+
+    const repos = await res.json();
+    repoMeta = {};
+    repos.forEach(r => {
+      repoMeta[r.name] = {
+        stars: r.stargazers_count,
+        lang: r.language,
+        updated: r.pushed_at
+      };
+    });
+    renderProjects();
+  } catch (err) {
+    // Silently keep local fallback — no metadata enrichment
+  }
 }
 
 // ============================================
@@ -278,12 +397,9 @@ function initSmoothScroll() {
         e.preventDefault();
         const target = document.querySelector(targetId);
         if (target) {
-          const offset = 90;
+          const offset = 80;
           const elementPos = target.getBoundingClientRect().top + window.scrollY;
           window.scrollTo({ top: elementPos - offset, behavior: 'smooth' });
-          
-          // Update active nav
-          document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
           link.classList.add('active');
         }
       }
@@ -291,50 +407,64 @@ function initSmoothScroll() {
   });
 }
 
+let observer = null;
 function initFadeInObserver() {
-  const observer = new IntersectionObserver((entries) => {
+  if (!('IntersectionObserver' in window)) {
+    document.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+    return;
+  }
+  if (observer) {
+    document.querySelectorAll('.fade-up:not(.visible)').forEach(el => observer.observe(el));
+    return;
+  }
+  observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15, rootMargin: "0px 0px -30px 0px" });
-  
+  }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 }
 
 function initMobileNav() {
-  const toggle = document.querySelector('.mobile-toggle');
-  const nav = document.querySelector('.nav-links');
-  
-  if (toggle && nav) {
-    toggle.addEventListener('click', () => {
-      toggle.classList.toggle('active');
-      nav.classList.toggle('active');
+  const toggle = document.getElementById('mobileToggle');
+  const nav = document.getElementById('navLinks');
+  if (!toggle || !nav) return;
+
+  toggle.addEventListener('click', () => {
+    const open = nav.classList.toggle('active');
+    toggle.classList.toggle('active');
+    toggle.setAttribute('aria-expanded', open);
+  });
+
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      nav.classList.remove('active');
+      toggle.classList.remove('active');
+      toggle.setAttribute('aria-expanded', 'false');
     });
-    
-    // Close menu when clicking a link
-    nav.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        toggle.classList.remove('active');
-        nav.classList.remove('active');
-      });
-    });
-  }
+  });
 }
 
 function handleProjectClick(e) {
   const btn = e.target.closest('.card-btn');
-  if (btn && (btn.href === '#' || btn.href.includes('#'))) {
+  if (!btn) return;
+  if (btn.classList.contains('disabled')) {
+    e.preventDefault();
+    return;
+  }
+  if (btn.href === '#' || btn.href.includes('#')) {
     e.preventDefault();
     const action = btn.textContent.includes('Code') ? 'GitHub' : 'live demo';
-    alert(`✨ This is a placeholder link.\n\nIn production, this would open the project's ${action}.\n\nUpdate the 'repo' and 'demo' fields in script.js with your actual URLs.`);
+    alert(`✨ This is a placeholder link.\n\nIn production, this would open the project's ${action}.`);
   }
 }
 
 // ============================================
-// FORM VALIDATION
+// FORM VALIDATION & SUBMISSION
 // ============================================
 function validateEmail(email) {
   return /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/.test(email);
@@ -345,14 +475,12 @@ function validateContactForm() {
   const email = document.getElementById('email').value.trim();
   const message = document.getElementById('message').value.trim();
   let isValid = true;
-  
-  // Clear errors
+
   ['name', 'email', 'message'].forEach(id => {
     document.getElementById(`${id}Error`).textContent = '';
     document.getElementById(id).closest('.form-group')?.classList.remove('invalid');
   });
-  
-  // Name validation
+
   if (!name) {
     document.getElementById('nameError').textContent = 'Name is required';
     document.getElementById('name').closest('.form-group').classList.add('invalid');
@@ -362,8 +490,7 @@ function validateContactForm() {
     document.getElementById('name').closest('.form-group').classList.add('invalid');
     isValid = false;
   }
-  
-  // Email validation
+
   if (!email) {
     document.getElementById('emailError').textContent = 'Email is required';
     document.getElementById('email').closest('.form-group').classList.add('invalid');
@@ -373,8 +500,7 @@ function validateContactForm() {
     document.getElementById('email').closest('.form-group').classList.add('invalid');
     isValid = false;
   }
-  
-  // Message validation
+
   if (!message) {
     document.getElementById('msgError').textContent = 'Message cannot be empty';
     document.getElementById('message').closest('.form-group').classList.add('invalid');
@@ -384,41 +510,54 @@ function validateContactForm() {
     document.getElementById('message').closest('.form-group').classList.add('invalid');
     isValid = false;
   }
-  
+
   return isValid;
 }
 
 function initContactForm() {
   const form = document.getElementById('contactForm');
   const status = document.getElementById('formStatus');
-  
   if (!form) return;
-  
-  form.addEventListener('submit', (e) => {
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
-    if (validateContactForm()) {
-      // Simulate sending
-      status.textContent = 'Sending...';
-      status.className = 'form-status';
-      
-      setTimeout(() => {
-        status.textContent = '✓ Message sent! I\'ll get back to you soon.';
-        status.className = 'form-status success';
-        form.reset();
-        
-        // Clear success message after 5 seconds
-        setTimeout(() => {
-          status.textContent = '';
-        }, 5000);
-      }, 1500);
-    } else {
+
+    if (!validateContactForm()) {
       status.textContent = '✗ Please fix the errors above';
+      status.className = 'form-status error';
+      return;
+    }
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    status.textContent = 'Sending...';
+    status.className = 'form-status';
+
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/mahmoud.samer2005@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name, email, message,
+          _subject: `Portfolio message from ${name}`,
+          _template: 'table'
+        })
+      });
+      if (!res.ok) throw new Error('Send failed');
+      status.textContent = '✓ Message sent! I\'ll get back to you soon.';
+      status.className = 'form-status success';
+      form.reset();
+    } catch (err) {
+      status.textContent = '✗ Could not send right now — email me directly at mahmoud.samer2005@gmail.com';
       status.className = 'form-status error';
     }
   });
-  
-  // Real-time validation on blur
+
   ['name', 'email', 'message'].forEach(id => {
     document.getElementById(id)?.addEventListener('blur', () => {
       if (document.getElementById(id).value.trim()) {
@@ -430,46 +569,127 @@ function initContactForm() {
 }
 
 // ============================================
-// HEADER SCROLL EFFECT
+// SCROLL EFFECTS
 // ============================================
 function initHeaderScroll() {
   const header = document.querySelector('.header');
   if (!header) return;
-  
+
+  const apply = () => {
+    const scrolled = window.scrollY > 40;
+    header.classList.toggle('scrolled', scrolled);
+  };
+  apply();
+  window.addEventListener('scroll', apply, { passive: true });
+}
+
+function initScrollProgress() {
+  const bar = document.getElementById('scrollProgress');
+  if (!bar) return;
+
+  const update = () => {
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = `${total > 0 ? (window.scrollY / total) * 100 : 0}%`;
+  };
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+}
+
+function initScrollSpy() {
+  const links = document.querySelectorAll('.nav-links a');
+  if (!links.length) return;
+
+  const sections = [...links].map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+  const update = () => {
+    const pos = window.scrollY + 120;
+    let current = sections[0];
+    sections.forEach(sec => { if (sec.offsetTop <= pos) current = sec; });
+    if (!current) return;
+    links.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === `#${current.id}`);
+    });
+  };
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+}
+
+function initBackToTop() {
+  const btn = document.getElementById('backToTop');
+  if (!btn) return;
+
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      header.style.background = 'rgba(3, 5, 10, 0.98)';
-      header.style.borderBottom = '1px solid var(--accent)';
-      header.style.boxShadow = '0 8px 30px rgba(0,0,0,0.4)';
-    } else {
-      header.style.background = 'rgba(3, 5, 10, 0.92)';
-      header.style.borderBottom = '1px solid rgba(30, 136, 229, 0.3)';
-      header.style.boxShadow = 'none';
-    }
+    btn.classList.toggle('visible', window.scrollY > 600);
+  }, { passive: true });
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 }
 
-// Call this once when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-   const yearSpan = document.getElementById('year');
-  if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+// Animated stat counters
+function initCounters() {
+  const counters = document.querySelectorAll('.counter');
+  if (!counters.length) return;
 
-  // 4. Animated skill progress bars
-  initSkillBars();
+  const animate = (el) => {
+    const target = parseFloat(el.dataset.target);
+    const decimals = parseInt(el.dataset.decimals || '0', 10);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1400;
+    const start = performance.now();
 
-  // 5. Projects filtering & rendering
-  buildFilterBar();
-  renderProjects();
+    const tick = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = target * eased;
+      el.textContent = value.toFixed(decimals) + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
 
-  // 6. Navigation & scroll behaviors
-  initSmoothScroll();
-  initFadeInObserver();
-  initMobileNav();
-  initHeaderScroll();
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animate(entry.target);
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
 
-  // 7. Contact form validation & submission
-  initContactForm();
+  counters.forEach(c => io.observe(c));
+}
 
-  // 8. Project card click handler (event delegation)
-  document.getElementById('projects-container')?.addEventListener('click', handleProjectClick);
-});
+// Hero role typing effect
+function initTyping() {
+  const el = document.getElementById('typedRole');
+  if (!el) return;
+
+  let roleIndex = 0, charIndex = 0, deleting = false;
+
+  const tick = () => {
+    const current = heroRoles[roleIndex];
+    if (!deleting) {
+      charIndex++;
+      el.textContent = current.slice(0, charIndex);
+      if (charIndex === current.length) {
+        deleting = true;
+        setTimeout(tick, 1800);
+        return;
+      }
+      setTimeout(tick, 70);
+    } else {
+      charIndex--;
+      el.textContent = current.slice(0, charIndex);
+      if (charIndex === 0) {
+        deleting = false;
+        roleIndex = (roleIndex + 1) % heroRoles.length;
+        setTimeout(tick, 400);
+        return;
+      }
+      setTimeout(tick, 35);
+    }
+  };
+  setTimeout(tick, 600);
+}
