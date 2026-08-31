@@ -80,8 +80,8 @@ const projectsData = [
   },
   {
     id: 15, title: "InfoLink",
-    description: "Spring Boot backend linking learners to tech opportunities - Java/Maven layered architecture with full API surface.",
-    tech: ["Java", "Spring Boot", "Maven"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/InfoLink"
+    description: "Production-ready Spring Boot 4.1 (Java 26) REST API — internal organizational search platform. Features JWT auth with refresh-token rotation, role-based access (USER/ADMIN/SYSADMIN), group-scoped MongoDB search, full audit logging, and hybrid SQL Server + MongoDB storage. Self-contained deployment serving frontend as static resources.",
+    tech: ["Java 26", "Spring Boot 4.1", "Maven", "MongoDB", "SQL Server", "JWT", "Spring Security", "Swagger/OpenAPI"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/InfoLink"
   },
   {
     id: 16, title: "Life on Land Zoo",
@@ -230,11 +230,30 @@ document.addEventListener('DOMContentLoaded', () => {
   initBackToTop();
   initCounters();
   initTyping();
+  initFeaturedProject();
 
   document.getElementById('projects-container')?.addEventListener('click', handleProjectClick);
 
   enrichProjectsWithGitHub();
 });
+
+// ============================================
+// FEATURED PROJECT EXPAND/COLLAPSE
+// ============================================
+function initFeaturedProject() {
+  const expandBtn = document.getElementById('featuredExpandBtn');
+  const details = document.getElementById('featuredDetails');
+  if (!expandBtn || !details) return;
+
+  expandBtn.addEventListener('click', () => {
+    const isHidden = details.hidden;
+    details.hidden = !isHidden;
+    expandBtn.innerHTML = isHidden
+      ? '<i class="fas fa-chevron-up"></i> Hide Technical Details'
+      : '<i class="fas fa-chevron-down"></i> Show Technical Details';
+    expandBtn.setAttribute('aria-expanded', isHidden);
+  });
+}
 
 // ============================================
 // RENDER FUNCTIONS
@@ -509,6 +528,18 @@ function initContactForm() {
   const status = document.getElementById('formStatus');
   if (!form) return;
 
+  // EmailJS configuration - REPLACE THESE WITH YOUR ACTUAL CREDENTIALS
+  const EMAILJS_CONFIG = {
+    serviceId: 'service_w4b0f5n',    // e.g., 'service_abc123'
+    templateId: 'template_feb40th',  // e.g., 'template_xyz789'
+    publicKey: 'fJY8A8CLFlrsEFjQR'     // e.g., 'aBcDeFgHiJkLmNoPq'
+  };
+
+  // Initialize EmailJS
+  if (typeof emailjs !== 'undefined') {
+    emailjs.init(EMAILJS_CONFIG.publicKey);
+  }
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -525,24 +556,33 @@ function initContactForm() {
     status.textContent = 'Sending...';
     status.className = 'form-status';
 
+    // Check if EmailJS is configured
+    if (EMAILJS_CONFIG.serviceId === 'YOUR_SERVICE_ID' || typeof emailjs === 'undefined') {
+      status.textContent = '✗ Email service not configured. Please email me directly at mahmoud.samer2005@gmail.com';
+      status.className = 'form-status error';
+      return;
+    }
+
     try {
-      const res = await fetch('https://formsubmit.co/ajax/mahmoud.samer2005@gmail.com', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          name, email, message,
-          _subject: `Portfolio message from ${name}`,
-          _template: 'table'
-        })
-      });
-      if (!res.ok) throw new Error('Send failed');
+      const templateParams = {
+        from_name: name,
+        from_email: email,
+        message: message,
+        to_email: 'mahmoud.samer2005@gmail.com',
+        subject: `Portfolio message from ${name}`
+      };
+
+      await emailjs.send(
+        EMAILJS_CONFIG.serviceId,
+        EMAILJS_CONFIG.templateId,
+        templateParams
+      );
+
       status.textContent = '✓ Message sent! I\'ll get back to you soon.';
       status.className = 'form-status success';
       form.reset();
     } catch (err) {
+      console.error('EmailJS error:', err);
       status.textContent = '✗ Could not send right now — email me directly at mahmoud.samer2005@gmail.com';
       status.className = 'form-status error';
     }

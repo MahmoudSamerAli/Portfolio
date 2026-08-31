@@ -17,6 +17,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
   <!-- Aurora background -->
@@ -125,7 +127,7 @@
           <div class="edu-card">
             <div class="edu-icon"><i class="fas fa-graduation-cap"></i></div>
             <h3>Arab Academy for Science, Technology &amp; Maritime Transport</h3>
-            <span class="edu-meta">B.Sc. Software Engineering · 2022 – 2026 (Expected)</span>
+            <span class="edu-meta">B.Sc. Software Engineering · 2023 – 2027 (Expected)</span>
             <p>GPA 3.2/4.0 — Core focus on data structures, DB systems, algorithms, web programming, and software process models.</p>
             <div class="edu-chips">
               <span>Data Structures</span><span>Database Systems</span><span>Algorithms</span>
@@ -167,6 +169,132 @@
       <div class="container">
         <h2>Featured <span class="gradient-text">Projects</span></h2>
         <p class="section-sub">27 professional projects — clean code, real impact</p>
+        
+        <!-- Featured Project: InfoLink -->
+        <div id="featured-project" class="featured-project-card fade-up">
+          <div class="featured-header" style="--card-accent:#8B5CF6">
+            <span class="featured-badge"><i class="fas fa-star"></i> Featured Project</span>
+            <span class="featured-category"><i class="fas fa-globe"></i> Web / Backend</span>
+          </div>
+          <div class="featured-body">
+            <div class="featured-main">
+              <h3 class="featured-title">InfoLink</h3>
+              <p class="featured-tagline">Internal information search platform with role-based access, JWT auth, and MongoDB/SQL Server hybrid storage</p>
+              <p class="featured-desc">InfoLink is a production-ready Spring Boot 4.1 (Java 26) REST API that serves as an organizational search platform. Authenticated users search records across group-scoped MongoDB collections, while administrators manage users, groups, and collection access mappings. Every search is logged for auditing. The backend also serves the frontend as static resources — a fully self-contained deployment.</p>
+              <div class="featured-tech">
+                <span class="tech-badge" style="--badge-accent:#E76F00"><i class="fab fa-java"></i> Java 26</span>
+                <span class="tech-badge" style="--badge-accent:#6DB33F"><i class="fas fa-leaf"></i> Spring Boot 4.1</span>
+                <span class="tech-badge" style="--badge-accent:#C71A36"><i class="fas fa-database"></i> MongoDB</span>
+                <span class="tech-badge" style="--badge-accent:#CC2927"><i class="fas fa-server"></i> SQL Server</span>
+                <span class="tech-badge" style="--badge-accent:#000"><i class="fas fa-key"></i> JWT Auth</span>
+                <span class="tech-badge" style="--badge-accent:#C71A36"><i class="fas fa-shield-alt"></i> Spring Security</span>
+                <span class="tech-badge" style="--badge-accent:#85EA2D"><i class="fas fa-code-branch"></i> Maven</span>
+                <span class="tech-badge" style="--badge-accent:#FF6C37"><i class="fas fa-book"></i> Swagger/OpenAPI</span>
+              </div>
+            </div>
+            <div class="featured-sidebar">
+              <div class="featured-stats">
+                <div class="stat-item">
+                  <i class="fas fa-lock"></i>
+                  <span>JWT + Refresh Rotation</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-users"></i>
+                  <span>Role-Based Access (USER/ADMIN/SYSADMIN)</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-search"></i>
+                  <span>Group-Scoped MongoDB Search</span>
+                </div>
+                <div class="stat-item">
+                  <i class="fas fa-history"></i>
+                  <span>Full Audit Logging</span>
+                </div>
+              </div>
+              <div class="featured-actions">
+                <a href="https://github.com/MahmoudSamerAli/InfoLink" class="btn btn-primary" target="_blank" rel="noopener">
+                  <i class="fab fa-github"></i> View Source Code
+                </a>
+                <button class="btn btn-outline featured-expand" id="featuredExpandBtn">
+                  <i class="fas fa-chevron-down"></i> Show Technical Details
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="featured-details" id="featuredDetails" hidden>
+            <div class="details-section">
+              <h4><i class="fas fa-list"></i> API Endpoints</h4>
+              <div class="endpoint-grid">
+                <div class="endpoint-group">
+                  <h5>Auth</h5>
+                  <ul>
+                    <li><code>POST /auth/login</code> — Returns access + refresh tokens</li>
+                    <li><code>POST /auth/refresh</code> — Rotates refresh token (single-use)</li>
+                    <li><code>POST /auth/logout</code> — Revokes refresh token server-side</li>
+                  </ul>
+                </div>
+                <div class="endpoint-group">
+                  <h5>Users & Groups</h5>
+                  <ul>
+                    <li><code>GET/POST/PATCH/DELETE /users/**</code> — Admin user management</li>
+                    <li><code>GET/POST/PUT/DELETE /group/**</code> — Admin group management</li>
+                    <li><code>GET /users/profile</code> — Current user profile</li>
+                  </ul>
+                </div>
+                <div class="endpoint-group">
+                  <h5>Collections & Search</h5>
+                  <ul>
+                    <li><code>GET /api/collections?groupId=</code> — Accessible collections</li>
+                    <li><code>POST /api/collections</code> — Create collection (+ optional grant)</li>
+                    <li><code>POST /api/collections/{name}/upload</code> — CSV/JSON upload</li>
+                    <li><code>GET /api/search</code> — Group-scoped regex search (logged)</li>
+                    <li><code>POST /api/search/deep</code> — Admin cross-collection search</li>
+                  </ul>
+                </div>
+                <div class="endpoint-group">
+                  <h5>Logs</h5>
+                  <ul>
+                    <li><code>GET /logs</code> — Admin: all logs (paginated, searchable)</li>
+                    <li><code>GET /logs/me</code> — User: own history + counters</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="details-section">
+              <h4><i class="fas fa-layer-group"></i> Data Model</h4>
+              <div class="model-grid">
+                <div class="model-card">
+                  <h5>User</h5>
+                  <p>username, BCrypt password, fullName, role (USER/ADMIN/SYSADMIN), group, active, createdAt</p>
+                </div>
+                <div class="model-card">
+                  <h5>Groups</h5>
+                  <p>name, description, active</p>
+                </div>
+                <div class="model-card">
+                  <h5>GroupsCollections</h5>
+                  <p>Maps group → allowed MongoDB collection names</p>
+                </div>
+                <div class="model-card">
+                  <h5>Log</h5>
+                  <p>user, collection, keyword, timestamp, IP, hit/miss</p>
+                </div>
+              </div>
+            </div>
+            <div class="details-section">
+              <h4><i class="fas fa-tools"></i> Key Technical Highlights</h4>
+              <ul class="highlights-list">
+                <li><strong>Refresh token rotation:</strong> Single-use, 30-min expiry, shared in-flight refresh prevents race conditions</li>
+                <li><strong>Group-scoped search:</strong> Users only search collections their group has been granted access to</li>
+                <li><strong>Hybrid storage:</strong> SQL Server (users, groups, logs) + MongoDB (searchable document collections)</li>
+                <li><strong>Validation & error handling:</strong> Jakarta Bean Validation + global exception handler with consistent error shapes</li>
+                <li><strong>Frontend:</strong> Vanilla JS SPA served as static resources, token management via <code>data-store.js</code> (auto-refresh on 401)</li>
+                <li><strong>File upload:</strong> CSV/JSON streaming into MongoDB (append-only), zip-slip-safe Excel converter implemented but not yet wired</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <div class="filter-bar" id="filter-bar"></div>
         <div id="projects-container" class="projects-grid"></div>
       </div>
