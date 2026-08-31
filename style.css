@@ -383,10 +383,16 @@ h2 {
   position: absolute;
   inset: -14px;
   border-radius: 44px;
-  border: 1.5px dashed rgba(139, 92, 246, 0.5);
-  animation: spin 16s linear infinite;
+  border: 2px solid transparent;
+  background: linear-gradient(#0D0A1A, #0D0A1A) padding-box,
+              var(--gradient-main) border-box;
+  box-shadow: 0 0 22px var(--accent-glow), inset 0 0 18px rgba(139, 92, 246, 0.25);
+  animation: ringPulse 3.2s ease-in-out infinite;
 }
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes ringPulse {
+  0%, 100% { transform: scale(0.98); opacity: 0.6; box-shadow: 0 0 12px var(--accent-glow), inset 0 0 12px rgba(139,92,246,0.2); }
+  50%      { transform: scale(1.05); opacity: 1;   box-shadow: 0 0 34px var(--accent-glow), inset 0 0 26px rgba(139,92,246,0.45); }
+}
 
 .hero-tagline {
   color: var(--accent-1);
