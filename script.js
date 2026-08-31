@@ -79,67 +79,62 @@ const projectsData = [
     tech: ["Python", "Algorithms", "Analysis"], category: "Algorithms", demo: "#", repo: "https://github.com/MahmoudSamerAli/Sorting_Algorithms_Analysis"
   },
   {
-    id: 15, title: "InfoLink",
-    description: "Production-ready Spring Boot 4.1 (Java 26) REST API — internal organizational search platform. Features JWT auth with refresh-token rotation, role-based access (USER/ADMIN/SYSADMIN), group-scoped MongoDB search, full audit logging, and hybrid SQL Server + MongoDB storage. Self-contained deployment serving frontend as static resources.",
-    tech: ["Java 26", "Spring Boot 4.1", "Maven", "MongoDB", "SQL Server", "JWT", "Spring Security", "Swagger/OpenAPI"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/InfoLink"
-  },
-  {
-    id: 16, title: "Life on Land Zoo",
+    id: 15, title: "Life on Land Zoo",
     description: "Java OOP zoo management GUI with animal/employee records, file-based database, biomes, and staff tracking.",
     tech: ["Java", "OOP", "File I/O"], category: "Software", demo: "#", repo: "https://github.com/MahmoudSamerAli/Life_on_Land_Zoo"
   },
   {
-    id: 17, title: "ArmorFit Store",
+    id: 16, title: "ArmorFit Store",
     description: "Full-stack e-commerce store with product catalog, checkout flow, auth, and admin dashboard backed by MSSQL.",
     tech: ["HTML", "CSS", "JavaScript", "MSSQL"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/ArmorFit"
   },
   {
-    id: 18, title: "Supermarket El-Aqarya",
+    id: 17, title: "Supermarket El-Aqarya",
     description: "Multi-page real estate website presenting properties, areas, and developers with a responsive catalog.",
     tech: ["HTML", "CSS", "JavaScript"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/Supermarket_El_Aqarya"
   },
   {
-    id: 19, title: "AI Recipe Maker",
+    id: 18, title: "AI Recipe Maker",
     description: "Django REST API with recipe & ingredient models, ETL data loading scripts, and Postgres-backed persistence.",
     tech: ["Django", "Python", "PostgreSQL"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/AI_Recipe_Maker"
   },
   {
-    id: 20, title: "ToDoList React",
+    id: 19, title: "ToDoList React",
     description: "Modern task manager built with React + Vite - component architecture, hooks, and state-driven UI.",
     tech: ["React.js", "JavaScript", "Vite"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/ToDoList_React"
   },
   {
-    id: 21, title: "CyberSnake",
+    id: 20, title: "CyberSnake",
     description: "Cybersecurity-themed Snake game in Python with difficulty quiz levels (JSON question banks) and score tracking.",
     tech: ["Python", "Games", "Cybersecurity"], category: "Software", demo: "#", repo: "https://github.com/MahmoudSamerAli/CyberSnake"
   },
   {
-    id: 22, title: "MDeals Car Pages",
+    id: 21, title: "MDeals Car Pages",
     description: "Luxury car brand showcase site (Audi, Cadillac, Dodge, Mercedes) with per-brand galleries and login screen.",
     tech: ["HTML", "CSS", "JavaScript"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/MDeals"
   },
   {
-    id: 23, title: "MyApplication (Android)",
+    id: 22, title: "MyApplication (Android)",
     description: "Kotlin Android app with camera, discover, favorites, and history screens - Jetpack-style Material UI.",
     tech: ["Kotlin", "Android", "Gradle"], category: "Software", demo: "#", repo: "https://github.com/MahmoudSamerAli/MyApplication_Android"
   },
   {
-    id: 24, title: "Instapay Web App",
+    id: 23, title: "Instapay Web App",
     description: "Bilingual digital wallet web app with auth, transactions, AI chat assistant, and dashboards.",
     tech: ["JavaScript", "HTML", "CSS"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/Instapay_WebApp"
   },
   {
-    id: 25, title: "Workspace Real Estate",
+    id: 24, title: "Workspace Real Estate",
     description: "Real estate platform with properties, areas, and developer pages - multi-page responsive site.",
     tech: ["HTML", "CSS", "JavaScript"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/Workspace_RealEstate"
   },
   {
-    id: 26, title: "AASTMT Hackathon",
+    id: 25, title: "AASTMT Hackathon",
     description: "Hackathon student platform with sign-up, majors, and sections pages - rapid team-based build.",
     tech: ["HTML", "CSS", "JavaScript"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/AASTMT_Hackathon"
   },
   {
-    id: 27, title: "fold-bags",
+    id: 26, title: "fold-bags",
     description: "E-commerce storefront with admin panel, checkout flow, and Cloudflare Pages serverless functions.",
     tech: ["HTML", "JavaScript", "Cloudflare"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/fold-bags"
   }
@@ -217,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderSkills();
   renderTimeline();
-  buildFilterBar();
+  buildTabBar();
   renderProjects();
 
   initSmoothScroll();
@@ -292,29 +287,30 @@ function getUniqueCategories() {
   return ['All', ...new Set(cats)];
 }
 
-function buildFilterBar() {
-  const filterBar = document.getElementById('filter-bar');
-  if (!filterBar) return;
+function buildTabBar() {
+  const tabBar = document.getElementById('tabBar');
+  if (!tabBar) return;
 
   const categories = getUniqueCategories();
-  filterBar.innerHTML = categories.map(cat => `
-    <button class="filter-btn ${cat === currentFilter ? 'active' : ''}" data-filter="${cat}">
+  tabBar.innerHTML = categories.map(cat => `
+    <button class="tab-btn ${cat === currentFilter ? 'active' : ''}" data-filter="${cat}" role="tab" aria-selected="${cat === currentFilter}">
       ${cat}
     </button>
   `).join('');
 
-  filterBar.querySelectorAll('.filter-btn').forEach(btn => {
+  tabBar.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       currentFilter = btn.dataset.filter;
-      updateActiveFilter();
+      updateActiveTab();
       renderProjects();
     });
   });
 }
 
-function updateActiveFilter() {
-  document.querySelectorAll('.filter-btn').forEach(btn => {
+function updateActiveTab() {
+  document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.filter === currentFilter);
+    btn.setAttribute('aria-selected', btn.dataset.filter === currentFilter);
   });
 }
 
@@ -528,11 +524,11 @@ function initContactForm() {
   const status = document.getElementById('formStatus');
   if (!form) return;
 
-  // EmailJS configuration - REPLACE THESE WITH YOUR ACTUAL CREDENTIALS
+  // EmailJS configuration
   const EMAILJS_CONFIG = {
-    serviceId: 'service_w4b0f5n',    // e.g., 'service_abc123'
-    templateId: 'template_feb40th',  // e.g., 'template_xyz789'
-    publicKey: 'fJY8A8CLFlrsEFjQR'     // e.g., 'aBcDeFgHiJkLmNoPq'
+    serviceId: 'service_w4b0f5n',
+    templateId: 'template_feb40th',
+    publicKey: 'fJY8A8CLFlrsEFjQR'
   };
 
   // Initialize EmailJS
@@ -556,9 +552,9 @@ function initContactForm() {
     status.textContent = 'Sending...';
     status.className = 'form-status';
 
-    // Check if EmailJS is configured
-    if (EMAILJS_CONFIG.serviceId === 'YOUR_SERVICE_ID' || typeof emailjs === 'undefined') {
-      status.textContent = '✗ Email service not configured. Please email me directly at mahmoud.samer2005@gmail.com';
+    // Check if EmailJS is available
+    if (typeof emailjs === 'undefined') {
+      status.textContent = '✗ Email service not available. Please email me directly at mahmoud.samer2005@gmail.com';
       status.className = 'form-status error';
       return;
     }
