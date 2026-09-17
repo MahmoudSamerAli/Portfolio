@@ -182,6 +182,13 @@ const timelineData = [
     period: "2025 - 2026",
     icon: "fas fa-users",
     points: ["Built Arduino robotics projects (RC car)"]
+  },
+  {
+    role: "Software Engineering Intern",
+    org: "Ara International Bank (AIB)",
+    period: "Aug 2026",
+    icon: "fas fa-briefcase",
+    points: ["Full-stack development: HTML, CSS, JavaScript frontend", "Backend: Java Spring Boot REST APIs", "Databases: MSSQL (relational) & MongoDB (document)"]
   }
 ];
 
@@ -378,17 +385,68 @@ async function enrichProjectsWithGitHub() {
 
     const repos = await res.json();
     repoMeta = {};
+
+    // Auto-add new repos as projects
+    const existingRepoNames = new Set(projectsData.map(p => getRepoName(p.repo)).filter(Boolean));
+
     repos.forEach(r => {
-      repoMeta[r.name] = {
+      const repoName = r.name;
+      repoMeta[repoName] = {
         stars: r.stargazers_count,
         lang: r.language,
         updated: r.pushed_at
       };
+
+      if (!existingRepoNames.has(repoName) && !r.fork && !r.private) {
+        // Auto-categorize based on language/topics
+        const category = detectCategory(r);
+        const tech = [r.language].filter(Boolean);
+        if (r.topics && r.topics.length) tech.push(...r.topics.slice(0, 3));
+
+        projectsData.push({
+          id: Date.now() + Math.random(),
+          title: formatRepoName(repoName),
+          description: r.description || 'No description available.',
+          tech: tech.slice(0, 5),
+          category,
+          demo: r.homepage || '#',
+          repo: r.html_url
+        });
+        existingRepoNames.add(repoName);
+      }
     });
     renderProjects();
   } catch (err) {
     // Silently keep local fallback — no metadata enrichment
   }
+}
+
+function detectCategory(repo) {
+  const lang = (repo.language || '').toLowerCase();
+  const topics = (repo.topics || []).map(t => t.toLowerCase());
+  const name = repo.name.toLowerCase();
+
+  if (topics.some(t => ['web', 'frontend', 'react', 'vue', 'nextjs', 'html', 'css', 'javascript', 'typescript'].includes(t)) ||
+      ['html', 'css', 'javascript', 'typescript', 'php'].includes(lang)) return 'Web';
+  if (topics.some(t => ['data', 'pandas', 'etl', 'analytics', 'visualization', 'sql'].includes(t)) ||
+      lang === 'r') return 'Data';
+  if (topics.some(t => ['ai', 'ml', 'machine-learning', 'deep-learning', 'tensorflow', 'pytorch', 'opencv'].includes(t))) return 'AI';
+  if (topics.some(t => ['database', 'sql', 'mongodb', 'postgres', 'mysql'].includes(t)) ||
+      lang === 'sql') return 'Database';
+  if (topics.some(t => ['hardware', 'arduino', 'embedded', 'iot', 'multisim', 'circuit'].includes(t)) ||
+      lang === 'c++' || lang === 'c') return 'Hardware';
+  if (topics.some(t => ['design', 'uml', 'figma', 'wireframe', 'prototype'].includes(t))) return 'Design';
+  if (topics.some(t => ['algorithm', 'leetcode', 'competitive', 'sorting', 'graph'].includes(t))) return 'Algorithms';
+  if (['java', 'python', 'c++', 'c', 'kotlin', 'go', 'rust'].includes(lang)) return 'Software';
+  return 'Software';
+}
+
+function formatRepoName(name) {
+  return name
+    .replace(/[-_]/g, ' ')
+    .replace(/\b\w/g, c => c.toUpperCase())
+    .replace(/(\d+)/g, ' $1')
+    .trim();
 }
 
 // ============================================
@@ -414,6 +472,12 @@ function initSmoothScroll() {
 
 let observer = null;
 function initFadeInObserver() {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) {
+    document.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+    return;
+  }
+
   if (!('IntersectionObserver' in window)) {
     document.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
     return;
@@ -507,11 +571,11 @@ function validateContactForm() {
   }
 
   if (!message) {
-    document.getElementById('msgError').textContent = 'Message cannot be empty';
+    document.getElementById('messageError').textContent = 'Message cannot be empty';
     document.getElementById('message').closest('.form-group').classList.add('invalid');
     isValid = false;
   } else if (message.length < 10) {
-    document.getElementById('msgError').textContent = 'Message must be at least 10 characters';
+    document.getElementById('messageError').textContent = 'Message must be at least 10 characters';
     document.getElementById('message').closest('.form-group').classList.add('invalid');
     isValid = false;
   }
@@ -595,6 +659,15 @@ function initContactForm() {
 }
 
 // ============================================
+// Debounce utility
+function debounce(fn, delay) {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+
 // SCROLL EFFECTS
 // ============================================
 function initHeaderScroll() {
@@ -606,7 +679,7 @@ function initHeaderScroll() {
     header.classList.toggle('scrolled', scrolled);
   };
   apply();
-  window.addEventListener('scroll', apply, { passive: true });
+  window.addEventListener('scroll', debounce(apply, 10), { passive: true });
 }
 
 function initScrollProgress() {
@@ -618,7 +691,7 @@ function initScrollProgress() {
     bar.style.width = `${total > 0 ? (window.scrollY / total) * 100 : 0}%`;
   };
   update();
-  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('scroll', debounce(update, 10), { passive: true });
 }
 
 function initScrollSpy() {
@@ -637,16 +710,16 @@ function initScrollSpy() {
     });
   };
   update();
-  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('scroll', debounce(update, 50), { passive: true });
 }
 
 function initBackToTop() {
   const btn = document.getElementById('backToTop');
   if (!btn) return;
 
-  window.addEventListener('scroll', () => {
+  window.addEventListener('scroll', debounce(() => {
     btn.classList.toggle('visible', window.scrollY > 600);
-  }, { passive: true });
+  }, 50), { passive: true });
 
   btn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -691,6 +764,13 @@ function initCounters() {
 function initTyping() {
   const el = document.getElementById('typedRole');
   if (!el) return;
+
+  // Respect prefers-reduced-motion
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) {
+    el.textContent = heroRoles[0];
+    return;
+  }
 
   let roleIndex = 0, charIndex = 0, deleting = false;
 
