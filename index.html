@@ -4,19 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Mahmoud Samer | Software Engineer</title>
-  <meta name="description" content="Software Engineering student at AASTMT. Full-stack development, data engineering, and scalable architecture. Explore 29+ projects.">
+  <meta name="description" content="Software Engineering student at AASTMT. Full-stack development, data engineering, and scalable architecture. Explore 26+ projects on GitHub.">
   <meta name="theme-color" content="#07050F">
   <meta property="og:title" content="Mahmoud Samer | Software Engineer">
-  <meta property="og:description" content="Full-stack developer, data engineer & problem solver. 29+ projects on GitHub.">
+  <meta property="og:description" content="Full-stack developer, data engineer & problem solver. 26+ projects on GitHub.">
   <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary">
-  <!-- Fonts: Space Grotesk (display) + Inter (body) + Font Awesome -->
+  <meta property="og:image" content="assets/images/og-image.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mahmoud Samer | Software Engineer">
+  <meta name="twitter:description" content="Full-stack developer, data engineer & problem solver. 26+ projects on GitHub.">
+  <!-- Fonts: Space Grotesk (display) + Inter (body) + Font Awesome + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.svg">
   <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
@@ -27,6 +31,7 @@
     <span class="blob blob-2"></span>
     <span class="blob blob-3"></span>
     <span class="noise-layer"></span>
+    <canvas class="particle-canvas" id="particleCanvas" aria-hidden="true"></canvas>
   </div>
 
   <!-- Scroll progress bar -->
@@ -35,45 +40,72 @@
   <header class="header" id="header">
     <div class="nav-container">
       <a href="#home" class="logo" aria-label="Home">
-        <span class="logo-mark">MS</span>
+        <span class="logo-mark">MD</span>
+        <span class="logo-text">MahmouDragn</span>
       </a>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#home" class="active">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+      <nav class="nav-links" id="navLinks" role="navigation" aria-label="Main navigation">
+        <a href="#home" class="active" data-section="home">Home</a>
+        <a href="#about" data-section="about">About</a>
+        <a href="#experience" data-section="experience">Experience</a>
+        <a href="#skills" data-section="skills">Skills</a>
+        <a href="#projects" data-section="projects">Projects</a>
+        <a href="#contact" data-section="contact">Contact</a>
+      </nav>
     </div>
   </header>
 
   <main>
     <!-- ============ HERO ============ -->
-    <section id="home" class="hero fade-up">
+    <section id="home" class="hero fade-up" aria-labelledby="hero-title">
       <div class="container hero-content">
-        <span class="hero-badge"><i class="fas fa-sparkles"></i> Open to Internships &amp; Entry-Level Roles</span>
-        <div class="hero-avatar" aria-hidden="true">
-          <span class="avatar-initials">MS</span>
-          <span class="avatar-ring"></span>
+        <div class="hero-badge-wrapper">
+          <span class="hero-badge pulse"><i class="fas fa-sparkles"></i> Open to Internships & Entry-Level Roles</span>
         </div>
-        <p class="hero-tagline">Software Engineering Student &amp; Developer</p>
-        <h1>Mahmoud Samer<br><span class="gradient-text">I build <span id="typedRole" class="typed-role"></span><span class="caret" aria-hidden="true"></span></span></h1>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="hero-avatar">
+            <span class="avatar-initials">MD</span>
+            <span class="avatar-ring"></span>
+            <span class="avatar-glow"></span>
+          </div>
+          <div class="floating-cards" aria-hidden="true">
+            <div class="float-card" data-delay="0">
+              <i class="fab fa-github"></i>
+              <span>26+ Repos</span>
+            </div>
+            <div class="float-card" data-delay="1">
+              <i class="fas fa-graduation-cap"></i>
+              <span>AASTMT SWE</span>
+            </div>
+            <div class="float-card" data-delay="2">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Cairo, Egypt</span>
+            </div>
+            <div class="float-card" data-delay="3">
+              <i class="fas fa-code"></i>
+              <span>Full-Stack</span>
+            </div>
+          </div>
+        </div>
+        <p class="hero-tagline">Software Engineering Student & Developer</p>
+        <h1 id="hero-title">Mahmoud Samer<br><span class="gradient-text">I build <span id="typedRole" class="typed-role"></span><span class="caret" aria-hidden="true"></span></span></h1>
         <p class="hero-desc">Passionate about full-stack development, data engineering, and scalable architecture. Transforming complex problems into efficient, production-ready applications.</p>
         <div class="btn-group">
           <a href="#projects" class="btn btn-primary"><i class="fas fa-code"></i> View Projects</a>
           <a href="#contact" class="btn btn-outline"><i class="fas fa-paper-plane"></i> Contact Me</a>
         </div>
-        <div class="hero-quick-stats">
-          <span><i class="fab fa-github"></i> 28+ repos</span>
-          <span><i class="fas fa-graduation-cap"></i> AASTMT · SWE</span>
-          <span><i class="fas fa-map-marker-alt"></i> Cairo, Egypt</span>
+        <div class="hero-social">
+          <a href="https://github.com/MahmoudSamerAli" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+          <a href="https://linkedin.com/in/mahmoud-samer" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+          <a href="mailto:mahmoud.samer2005@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
         </div>
       </div>
       <div class="hero-glow"></div>
+      <div class="scroll-indicator" aria-hidden="true">
+        <span class="mouse">
+          <span class="wheel"></span>
+        </span>
+        <span>Scroll to explore</span>
+      </div>
     </section>
 
     <!-- ============ ABOUT ============ -->
@@ -82,10 +114,10 @@
         <h2>About <span class="gradient-text">Me</span></h2>
         <div class="about-grid">
           <div class="about-text">
-            <p>I'm a 3rd-year Software Engineering student at AASTMT with a strong foundation in Python, Java, C++, and SQL. My journey spans full-stack web development, OOP-based desktop applications, data engineering, and embedded systems.</p>
+            <p>I'm a 4th-year Software Engineering student at AASTMT with a strong foundation in Python, Java, C++, and SQL. My journey spans full-stack web development, OOP-based desktop applications, data engineering, and embedded systems.</p>
             <p>Through internships at Google Developer Groups, Flexe Soft, and the Digital Egypt Pioneers Initiative, I've honed my ability to deliver production-ready features, optimize performance, and collaborate effectively in agile environments. I thrive on solving complex challenges and continuously expanding my technical toolkit.</p>
             <div class="about-stats">
-              <div class="stat"><h3><span class="counter" data-target="27" data-suffix="+">0</span></h3><p>Projects</p></div>
+              <div class="stat"><h3><span class="counter" data-target="26" data-suffix="+">0</span></h3><p>Projects</p></div>
               <div class="stat"><h3><span class="counter" data-target="3">0</span></h3><p>Internships</p></div>
               <div class="stat"><h3><span class="counter" data-target="3.2" data-decimals="1">0</span></h3><p>GPA / 4.0</p></div>
             </div>
@@ -102,7 +134,7 @@
                 <p><span class="prompt">$</span> cat focus_areas.txt</p>
                 <p class="output">Full-Stack Web • OOP Systems • Data Engineering • Embedded</p>
                 <p><span class="prompt">$</span> status</p>
-                <p class="output success">✔ Open to Internships &amp; Entry-Level Roles</p>
+                <p class="output success">✔ Open to Internships & Entry-Level Roles</p>
               </div>
             </div>
           </div>
@@ -114,7 +146,7 @@
     <section id="experience" class="fade-up">
       <div class="container">
         <h2>Experience <span class="gradient-text">Journey</span></h2>
-        <p class="section-sub">Internships &amp; programs that shaped my engineering mindset</p>
+        <p class="section-sub">Internships & programs that shaped my engineering mindset</p>
         <div class="timeline" id="timeline"></div>
       </div>
     </section>
@@ -354,7 +386,10 @@
 
   <footer>
     <div class="container footer-content">
-      <p>© <span id="year"></span> Mahmoud Samer.</p>
+        <div class="footer-brand">
+          <span class="footer-name">Mahmoud Samer</span>
+        </div>
+        <p class="footer-copyright">© <span id="year"></span> Mahmoud Samer.</p>
       <nav class="footer-nav" aria-label="Footer">
         <a href="#home">Home</a><a href="#about">About</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#contact">Contact</a>
       </nav>

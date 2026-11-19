@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#07050F;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0D0A1A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#100D20;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#B8A0FF;stop-opacity:1" />
+      <stop offset="40%" style="stop-color:#9F7AFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06F8FF;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="glow1" cx="20%" cy="20%" r="50%">
+      <stop offset="0%" style="stop-color:rgba(159,122,255,0.3);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(159,122,255,0);stop-opacity:0" />
+    </radialGradient>
+    <radialGradient id="glow2" cx="80%" cy="80%" r="50%">
+      <stop offset="0%" style="stop-color:rgba(6,248,255,0.2);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgba(6,248,255,0);stop-opacity:0" />
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+  <ellipse cx="240" cy="126" rx="400" ry="200" fill="url(#glow1)"/>
+  <ellipse cx="960" cy="504" rx="400" ry="200" fill="url(#glow2)"/>
+  <text x="600" y="280" font-family="Space Grotesk, sans-serif" font-size="72" font-weight="700" fill="url(#textGrad)" text-anchor="middle" dominant-baseline="middle">Mahmoud Samer</text>
+  <text x="600" y="360" font-family="Inter, sans-serif" font-size="28" font-weight="400" fill="#B7B0D6" text-anchor="middle" dominant-baseline="middle">Software Engineer & Developer</text>
+  <text x="600" y="420" font-family="Inter, sans-serif" font-size="20" font-weight="400" fill="#8479A8" text-anchor="middle" dominant-baseline="middle">Full-Stack • Data Engineering • Scalable Architecture</text>
+  <rect x="550" y="460" width="100" height="4" rx="2" fill="url(#textGrad)"/>
+  <text x="600" y="520" font-family="Inter, sans-serif" font-size="18" font-weight="500" fill="#B7B0D6" text-anchor="middle" dominant-baseline="middle">26+ Projects on GitHub</text>
+</svg>

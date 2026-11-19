@@ -89,19 +89,9 @@ const projectsData = [
     tech: ["HTML", "CSS", "JavaScript", "MSSQL"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/ArmorFit"
   },
   {
-    id: 17, title: "Supermarket El-Aqarya",
-    description: "Multi-page real estate website presenting properties, areas, and developers with a responsive catalog.",
-    tech: ["HTML", "CSS", "JavaScript"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/Supermarket_El_Aqarya"
-  },
-  {
     id: 18, title: "AI Recipe Maker",
     description: "Django REST API with recipe & ingredient models, ETL data loading scripts, and Postgres-backed persistence.",
     tech: ["Django", "Python", "PostgreSQL"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/AI_Recipe_Maker"
-  },
-  {
-    id: 19, title: "ToDoList React",
-    description: "Modern task manager built with React + Vite - component architecture, hooks, and state-driven UI.",
-    tech: ["React.js", "JavaScript", "Vite"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/ToDoList_React"
   },
   {
     id: 20, title: "CyberSnake",
@@ -117,16 +107,6 @@ const projectsData = [
     id: 22, title: "MyApplication (Android)",
     description: "Kotlin Android app with camera, discover, favorites, and history screens - Jetpack-style Material UI.",
     tech: ["Kotlin", "Android", "Gradle"], category: "Software", demo: "#", repo: "https://github.com/MahmoudSamerAli/MyApplication_Android"
-  },
-  {
-    id: 23, title: "Instapay Web App",
-    description: "Bilingual digital wallet web app with auth, transactions, AI chat assistant, and dashboards.",
-    tech: ["JavaScript", "HTML", "CSS"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/Instapay_WebApp"
-  },
-  {
-    id: 24, title: "Workspace Real Estate",
-    description: "Real estate platform with properties, areas, and developer pages - multi-page responsive site.",
-    tech: ["HTML", "CSS", "JavaScript"], category: "Web", demo: "#", repo: "https://github.com/MahmoudSamerAli/Workspace_RealEstate"
   },
   {
     id: 25, title: "AASTMT Hackathon",
@@ -212,11 +192,116 @@ let currentFilter = "All";
 let repoMeta = {}; // repo name -> {stars, lang, updated}
 
 // ============================================
+// PARTICLE CANVAS
+// ============================================
+function initParticleCanvas() {
+  const canvas = document.getElementById('particleCanvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let animationId = null;
+  let width = 0;
+  let height = 0;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
+
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+
+  class Particle {
+    constructor() {
+      this.reset();
+    }
+
+    reset() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.size = Math.random() * 2 + 0.5;
+      this.speedX = (Math.random() - 0.5) * 0.3;
+      this.speedY = (Math.random() - 0.5) * 0.3;
+      this.opacity = Math.random() * 0.5 + 0.1;
+      this.color = Math.random() > 0.5 ? '159, 122, 255' : '6, 248, 255';
+    }
+
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+
+      if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
+        this.reset();
+      }
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
+      ctx.fill();
+    }
+  }
+
+  function init() {
+    resize();
+    const particleCount = Math.min(80, Math.floor((width * height) / 15000));
+    particles = Array.from({ length: particleCount }, () => new Particle());
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+
+    // Draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(159, 122, 255, ${0.1 * (1 - dist / 120)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Draw particles
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+
+    animationId = requestAnimationFrame(animate);
+  }
+
+  function handleResize() {
+    resize();
+  }
+
+  window.addEventListener('resize', debounce(handleResize, 100));
+  init();
+  animate();
+
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', () => {
+    if (animationId) cancelAnimationFrame(animationId);
+    window.removeEventListener('resize', handleResize);
+  });
+}
+
+// ============================================
 // INITIALIZATION
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('year').textContent = new Date().getFullYear();
 
+  initParticleCanvas();
   renderSkills();
   renderTimeline();
   buildTabBar();
